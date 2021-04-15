@@ -110,6 +110,8 @@ int main(int argc, char *argv[])
                 sleep(5);
             }
         }
+        while (wait(&statusB) > 0)
+            chdir("..");
 
         // pidD = fork();
         // if (pidD < 0)
