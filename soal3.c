@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
                     exit(EXIT_FAILURE);
                 if (pidC == 0)
                 {
-                    char *argvB[] = {"wget", "-O", stringTime, url, NULL};
+                    char *argvB[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argvB);
                 }
                 sleep(5);
