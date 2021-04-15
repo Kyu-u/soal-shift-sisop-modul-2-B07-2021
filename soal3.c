@@ -48,44 +48,28 @@ int main()
 
     while (1)
     {
-        pid_t pid[5];
+        pid_t pidA, pidB, pidC;
 
-        for (int i = 0; i < 4; i++)
+        pidA = fork();
+
+        if (pidA < 0)
         {
-            pid[i] = fork();
+            exit(EXIT_FAILURE);
+        }
+        if (pidA == 0)
+        {
+            //untuk mendapatkan waktu saat program dieksekusi
+            time_t rawtime;
+            struct tm *timeinfo;
+            char stringTime[sizeof "YYYY-MM-DD_HH:MM:SS"];
+            time(&rawtime);
+            timeinfo = localtime(&rawtime);
+            strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-            if (pid[i] == 0)
-            {
-                if (i == 1)
-                {
-                    //untuk mendapatkan waktu saat program dieksekusi
-                    time_t rawtime;
-                    struct tm *timeinfo;
-                    char stringTime[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                    time(&rawtime);
-                    timeinfo = localtime(&rawtime);
-                    strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
-
-                    //buat direktori 3a
-                    char *argva[3] = {"mkdir", stringTime, NULL};
-                    execv("/bin/mkdir", argva);
-                    sleep(40);
-                    exit(0);
-                }
-                if (i == 2)
-                {
-                    exit(0);
-                }
-                if (i == 3)
-                {
-                    exit(0);
-                }
-            }
-            if (pid[i] < 0)
-            {
-                perror("Something went wrong with the fork");
-                exit(1);
-            }
+            //buat direktori 3a
+            char *argvA[3] = {"mkdir", stringTime, NULL};
+            execv("/bin/mkdir", argvA);
+            sleep(40);
         }
     }
 }
