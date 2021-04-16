@@ -84,7 +84,7 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
-    int status;
+
     //mode pertama
     if (strcmp(argv[1], "-z") == 0)
     {
@@ -97,9 +97,6 @@ int main(int argc, char *argv[])
     if (strcmp(argv[1], "-x") == 0)
     {
     }
-
-    while (wait(&status) > 0)
-        ;
 
     daemonSkeleton();
 
