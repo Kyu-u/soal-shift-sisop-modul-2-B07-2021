@@ -172,8 +172,8 @@ int main(int argc, char *argv[])
             //masukkan kedalam file
             FILE *fp = NULL;
             fp = fopen("status.txt", "w");
-            // fputs(statusMessage, fp);
-            fprintf(fp, "%s", statusMessage);
+            fputs(statusMessage, fp);
+            // fprintf(fp, "%s", statusMessage);
             fclose(fp);
 
             //kembali ke direktori sebelumnya
