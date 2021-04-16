@@ -10,9 +10,14 @@
 #include <string.h>
 #include <time.h>
 
-#define BASHSCRIPT "\
+#define KILL "\
 #!/bin/bash\n\
-killall soal3\n\
+kill -9 soal3\n\
+rm Killer.sh\n\
+"
+#define TERM "\
+#!/bin/bash\n\
+kill soal3\n\
 rm Killer.sh\n\
 "
 
@@ -84,19 +89,29 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
+    //jika argumen tidak benar
+    if (argc != 2)
+    {
+        printf("Argumen salah!\n");
+        exit(0);
+    }
 
     //mode pertama
     if (strcmp(argv[1], "-z") == 0)
     {
-        FILE *fpKiller = NULL;
-        fpKiller = fopen("Killer.sh", "w");
-        fputs(BASHSCRIPT, fpKiller);
-        fclose(fpKiller);
+        FILE *fp = NULL;
+        fp = fopen("Killer.sh", "w");
+        fputs(KILL, fp);
+        fclose(fp);
     }
-    //mode pertama
-    // if (strcmp(argv[1], "-x") == 0)
-    // {
-    // }
+    //mode kedua
+    if (strcmp(argv[1], "-x") == 0)
+    {
+        FILE *fp = NULL;
+        fp = fopen("Killer.sh", "w");
+        fputs(TERM, fp);
+        fclose(fp);
+    }
 
     daemonSkeleton();
 
