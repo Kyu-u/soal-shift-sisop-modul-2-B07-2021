@@ -39,9 +39,9 @@ void daemonSkeleton()
     //     exit(EXIT_FAILURE);
     // }
 
-    // close(STDIN_FILENO);
-    // close(STDOUT_FILENO);
-    // close(STDERR_FILENO);
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
 }
 
 void caesarShift(char word[], int key)
@@ -114,8 +114,6 @@ int main(int argc, char *argv[])
         }
         sleep(1);
 
-        int statusB;
-
         pid_t pidB;
         pidB = fork();
 
@@ -127,6 +125,9 @@ int main(int argc, char *argv[])
         {
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
+
+            int statusC;
+
             for (int i = 0; i < 10; i++)
             {
                 //mendapatkan waktu saat mendownload gambar
@@ -140,6 +141,8 @@ int main(int argc, char *argv[])
                 char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
                 sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
+
+                printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
 
                 pid_t pidC;
                 pidC = fork();
@@ -156,7 +159,7 @@ int main(int argc, char *argv[])
                 sleep(5);
             }
 
-            while (wait(&statusB) > 0)
+            while (wait(&statusC) > 0)
                 ;
 
             char status[] = {"Download Success"};
