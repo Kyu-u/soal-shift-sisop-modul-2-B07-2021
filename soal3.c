@@ -44,12 +44,35 @@ void daemonSkeleton()
     // close(STDERR_FILENO);
 }
 
-void caesar5(char word[])
+void caesarShift(char word[], int key)
 {
-    int len = strlen(word);
-    for (int i = 0; i < len; i++)
+    char ch;
+    for (int i = 0; word[i] != '\0'; ++i)
     {
-        word[i] += 5;
+        ch = word[i];
+
+        if (ch >= 'a' && ch <= 'z')
+        {
+            ch = ch + key;
+
+            if (ch > 'z')
+            {
+                ch = ch - 'z' + 'a' - 1;
+            }
+
+            word[i] = ch;
+        }
+        else if (ch >= 'A' && ch <= 'Z')
+        {
+            ch = ch + key;
+
+            if (ch > 'Z')
+            {
+                ch = ch - 'Z' + 'A' - 1;
+            }
+
+            word[i] = ch;
+        }
     }
 }
 
@@ -64,10 +87,6 @@ int main(int argc, char *argv[])
 
     while (1)
     {
-        pid_t pidA, pidB, pidC, pidD, pidE;
-
-        int statusA;
-
         //untuk mendapatkan waktu saat program dieksekusi
         time_t rawtime;
         struct tm *timeinfo;
@@ -76,6 +95,12 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
+        //membuat string dengan nama file untuk melakukan zip
+        char zipName[40];
+        strcpy(zipName, stringTime);
+        strcat(zipName, ".zip");
+
+        pid_t pidA;
         pidA = fork();
         if (pidA < 0)
         {
@@ -83,15 +108,15 @@ int main(int argc, char *argv[])
         }
         if (pidA == 0)
         {
-            //buat direktori 3a
+            //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
         }
+        sleep(1);
 
-        //soalB
-        while (wait(&statusA) > 0)
-            ;
+        int statusB;
 
+        pid_t pidB;
         pidB = fork();
 
         if (pidB < 0)
@@ -100,13 +125,10 @@ int main(int argc, char *argv[])
         }
         if (pidB == 0)
         {
-            int statusB;
-
+            //masuk ke direktori yang telah dibuat
             chdir(stringTime);
             for (int i = 0; i < 10; i++)
             {
-                char url[40];
-
                 //mendapatkan waktu saat mendownload gambar
                 time_t rawtime2;
                 struct tm *timeinfo2;
@@ -114,9 +136,12 @@ int main(int argc, char *argv[])
                 time(&rawtime2);
                 timeinfo2 = localtime(&rawtime2);
                 strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", timeinfo2);
+
+                char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
                 sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
 
+                pid_t pidC;
                 pidC = fork();
                 if (pidC < 0)
                 {
@@ -124,6 +149,7 @@ int main(int argc, char *argv[])
                 }
                 if (pidC == 0)
                 {
+                    //mendownload gambar dari url yang telah dibuat
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
                 }
@@ -135,16 +161,50 @@ int main(int argc, char *argv[])
 
             char status[] = {"Download Success"};
             //caesar cypher 5
-            caesar5(status);
+            caesarShift(status, 5);
+            //printf("\n\n%s\n\n", status);
 
             //masukkan kedalam file
-            FILE *ptr = NULL;
-            ptr = fopen("status.txt", "w");
-            fputs(status, ptr);
-            fclose(ptr);
+            FILE *fp = NULL;
+            fp = fopen("status.txt", "w");
+            fputs(status, fp);
+            fclose(fp);
 
             //kembali ke direktori sebelumnya
             chdir("..");
+
+            int statusD;
+
+            pid_t pidD;
+            pidD = fork();
+
+            if (pidD < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if (pidD == 0)
+            {
+                //melakukan zip direktori stringTime dengan format nama zipName
+                char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
+                execv("/usr/bin/zip", argv);
+            }
+
+            while (wait(&statusD) > 0)
+                ;
+
+            pid_t pidE;
+            pidE = fork();
+
+            if (pidE < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if (pidE == 0)
+            {
+                //melakukan remove direktori yang tidak dizip
+                char *argv[] = {"rm", "-r", stringTime, NULL};
+                execv("/usr/bin/rm", argv);
+            }
         }
         sleep(40);
     }
