@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
             execv("/bin/mkdir", argv);
         }
 
-        sleep(0);
+        sleep(1);
 
         pid_t pidB;
         pidB = fork();
