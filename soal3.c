@@ -107,17 +107,12 @@ int main(int argc, char *argv[])
                     //download gambar dari url
                     char *argvB[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argvB);
-                    //gambar terakhir
-                    if (i == 9)
-                    {
-                        chdir("..");
-                    }
                 }
                 sleep(5);
             }
+            while (wait(&statusB) > 0)
+                chdir("..");
         }
-        // while (wait(&statusB) > 0)
-        //     chdir("..");
 
         // pidD = fork();
         // if (pidD < 0)
