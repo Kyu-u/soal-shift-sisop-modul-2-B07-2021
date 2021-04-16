@@ -132,21 +132,21 @@ int main(int argc, char *argv[])
             for (int i = 0; i < 10; i++)
             {
                 //mendapatkan waktu saat mendownload gambar
-                char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                time_t now = time(NULL);
-                struct tm now_tm = *localtime(&now);
-                struct tm then_tm = now_tm;
-                then_tm.tm_sec -= 1;
-                mktime(&then_tm);
+                // char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
+                // time_t now = time(NULL);
+                // struct tm now_tm = *localtime(&now);
+                // struct tm then_tm = now_tm;
+                // then_tm.tm_sec -= 1;
+                // mktime(&then_tm);
+                // strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
 
+                //mendapatkan waktu saat mendownload gambar
                 time_t rawtime2;
                 struct tm *timeinfo2;
+                char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
                 time(&rawtime2);
-
-                // time_t now2;
-                // time(&now2);
-
-                strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
+                timeinfo2 = localtime(&rawtime2);
+                strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", timeinfo2);
 
                 char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
