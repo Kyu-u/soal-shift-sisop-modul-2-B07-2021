@@ -134,6 +134,8 @@ int main(int argc, char *argv[])
                 //mendapatkan waktu saat mendownload gambar
                 time_t rawtime2;
                 struct tm *timeinfo2;
+                timeinfo2->tm_sec -= 1;
+                mktime(&timeinfo2);
                 char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
                 time(&rawtime2);
                 timeinfo2 = localtime(&rawtime2);
