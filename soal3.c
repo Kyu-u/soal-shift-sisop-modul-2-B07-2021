@@ -46,14 +46,14 @@ void daemonSkeleton()
 
 int main(int argc, char *argv[])
 {
-    int status;
+    int status, statusA, statusB, statusC;
 
-    daemonSkeleton();
+    while (wait(&status) > 0)
+        daemonSkeleton();
 
     while (1)
     {
         pid_t pidA, pidB, pidC, pidD, pidE;
-        int statusA, statusB, statusC;
         char url[40];
 
         //untuk mendapatkan waktu saat program dieksekusi
