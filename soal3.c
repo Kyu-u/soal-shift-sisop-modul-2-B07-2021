@@ -139,14 +139,14 @@ int main(int argc, char *argv[])
                 then_tm.tm_sec -= 1;
                 mktime(&then_tm);
 
-                time_t now2;
-                time(&now2);
+                // time_t now2;
+                // time(&now2);
 
                 strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
 
                 char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
-                sprintf(url, "https://picsum.photos/%ld", (now2 % 1000) + 50);
+                sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
 
                 //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
 
