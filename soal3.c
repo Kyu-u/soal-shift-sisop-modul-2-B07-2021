@@ -100,8 +100,6 @@ int main(int argc, char *argv[])
         strcpy(zipName, stringTime);
         strcat(zipName, ".zip");
 
-        int statusA;
-
         pid_t pidA;
         pidA = fork();
         if (pidA < 0)
@@ -115,8 +113,7 @@ int main(int argc, char *argv[])
             execv("/bin/mkdir", argv);
         }
 
-        while (wait(&statusA) > 0)
-            ;
+        sleep(0);
 
         pid_t pidB;
         pidB = fork();
@@ -146,7 +143,7 @@ int main(int argc, char *argv[])
                 //modifikasi string url agar bisa download file sesuai kriteria
                 sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
 
-                printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
+                //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
 
                 pid_t pidC;
                 pidC = fork();
