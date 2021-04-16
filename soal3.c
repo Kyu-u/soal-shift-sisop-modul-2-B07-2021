@@ -139,6 +139,10 @@ int main(int argc, char *argv[])
                 then_tm.tm_sec -= 1;
                 mktime(&then_tm);
 
+                time_t rawtime2;
+                struct tm *timeinfo2;
+                time(&rawtime2);
+
                 // time_t now2;
                 // time(&now2);
 
@@ -146,7 +150,7 @@ int main(int argc, char *argv[])
 
                 char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
-                sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
+                sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
 
                 //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
 
