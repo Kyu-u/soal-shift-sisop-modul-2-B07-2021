@@ -100,6 +100,8 @@ int main(int argc, char *argv[])
         strcpy(zipName, stringTime);
         strcat(zipName, ".zip");
 
+        int statusA;
+
         pid_t pidA;
         pidA = fork();
         if (pidA < 0)
@@ -112,7 +114,9 @@ int main(int argc, char *argv[])
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
         }
-        sleep(1);
+
+        while (wait(&statusA) > 0)
+            ;
 
         pid_t pidB;
         pidB = fork();
