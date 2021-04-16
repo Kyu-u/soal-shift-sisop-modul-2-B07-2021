@@ -12,12 +12,12 @@
 
 #define KILL "\
 #!/bin/bash\n\
-kill -9 soal3\n\
+pkill -9 soal3\n\
 rm Killer.sh\n\
 "
 #define TERM "\
 #!/bin/bash\n\
-kill soal3\n\
+pkill -15 soal3\n\
 rm Killer.sh\n\
 "
 
@@ -92,7 +92,8 @@ int main(int argc, char *argv[])
     //jika argumen tidak benar
     if (argc != 2)
     {
-        printf("Argumen salah!\n");
+        printf("Argumen salah!\n Masukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
+
         exit(0);
     }
 
