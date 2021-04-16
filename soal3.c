@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         if (pidB == 0)
         {
             chdir(stringTime);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 //mendapatkan waktu saat mendownload gambar
                 time_t rawtime2;
