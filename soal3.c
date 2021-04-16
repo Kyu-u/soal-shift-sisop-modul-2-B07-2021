@@ -49,7 +49,9 @@ int main(int argc, char *argv[])
     int status, statusA, statusB, statusC;
 
     while (wait(&status) > 0)
+    {
         daemonSkeleton();
+    }
 
     while (1)
     {
@@ -79,7 +81,9 @@ int main(int argc, char *argv[])
 
         //soalB
         while (wait(&statusA) > 0)
+        {
             pidB = fork();
+        }
         if (pidB < 0)
         {
             exit(EXIT_FAILURE);
@@ -111,7 +115,9 @@ int main(int argc, char *argv[])
                 sleep(5);
             }
             while (wait(&statusB) > 0)
+            {
                 chdir("..");
+            }
         }
 
         // pidD = fork();
