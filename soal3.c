@@ -10,6 +10,12 @@
 #include <string.h>
 #include <time.h>
 
+#define BASHSCRIPT "\
+#!/bin/bash\n\
+killall soal3\n\
+rm Killer.sh\n\
+"
+
 void daemonSkeleton()
 {
     pid_t pid, sid;
@@ -79,6 +85,18 @@ void caesarShift(char word[], int key)
 int main(int argc, char *argv[])
 {
     int status;
+    //mode pertama
+    if (strcmp(argv[1], "-z") == 0)
+    {
+        FILE *fp = NULL;
+        fp = fopen("Killer.sh", "w");
+        fputs(BASHSCRIPT, fp);
+        fclose(fp);
+    }
+    //mode pertama
+    if (strcmp(argv[1], "-x") == 0)
+    {
+    }
 
     while (wait(&status) > 0)
         ;
