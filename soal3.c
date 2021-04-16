@@ -112,12 +112,17 @@ int main(int argc, char *argv[])
                     char *argvB[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argvB);
                 }
+                if (i == 9)
+                {
+                    printf("\n\nDONE\n\n");
+                    chdir("..");
+                }
                 sleep(5);
             }
-            while (wait(&statusB) > 0)
-            {
-                chdir("..");
-            }
+            // while (wait(&statusB) > 0)
+            // {
+            //     chdir("..");
+            // }
         }
 
         // pidD = fork();
