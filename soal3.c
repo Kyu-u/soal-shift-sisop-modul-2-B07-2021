@@ -87,8 +87,19 @@ int main(int argc, char *argv[])
 
     while (1)
     {
+        //counter karena menambahkan sleep(1)
+        int countTime = 0;
+
         //untuk mendapatkan waktu saat program dieksekusi
         time_t rawtime;
+
+        if (countTime > 0)
+        {
+            rawtime -= 1;
+            //reset counter
+            countTime = 0;
+        }
+
         struct tm *timeinfo;
         char stringTime[sizeof "YYYY-MM-DD_HH:MM:SS"];
         time(&rawtime);
@@ -115,6 +126,8 @@ int main(int argc, char *argv[])
 
         sleep(1);
 
+        countTime += 1;
+
         pid_t pidB;
         pidB = fork();
 
@@ -133,6 +146,7 @@ int main(int argc, char *argv[])
             {
                 //mendapatkan waktu saat mendownload gambar
                 time_t rawtime2;
+                rawtime2 -= 1;
                 struct tm *timeinfo2;
                 char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
                 time(&rawtime2);
