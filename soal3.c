@@ -164,11 +164,11 @@ int main(int argc, char *argv[])
             while (wait(&statusC) > 0)
                 ;
 
+            char status[] = {"Download Success"};
             //caesar cypher 5
             caesarShift(status, 5);
             //printf("\n\n%s\n\n", status);
 
-            char status[] = "Download Success";
             //masukkan kedalam file
             FILE *fp = NULL;
             fp = fopen("status.txt", "w");
