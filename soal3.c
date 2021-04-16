@@ -88,15 +88,15 @@ int main(int argc, char *argv[])
     //mode pertama
     if (strcmp(argv[1], "-z") == 0)
     {
-        FILE *fp = NULL;
-        fp = fopen("Killer.sh", "w");
-        fputs(BASHSCRIPT, fp);
-        fclose(fp);
+        FILE *fpKiller = NULL;
+        fpKiller = fopen("Killer.sh", "w");
+        fputs(BASHSCRIPT, fpKiller);
+        fclose(fpKiller);
     }
     //mode pertama
-    if (strcmp(argv[1], "-x") == 0)
-    {
-    }
+    // if (strcmp(argv[1], "-x") == 0)
+    // {
+    // }
 
     daemonSkeleton();
 
