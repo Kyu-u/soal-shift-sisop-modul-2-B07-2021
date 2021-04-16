@@ -164,15 +164,16 @@ int main(int argc, char *argv[])
             while (wait(&statusC) > 0)
                 ;
 
-            char status[] = {"Download Success"};
+            char statusMessage[] = {"Download Success"};
             //caesar cypher 5
-            caesarShift(status, 5);
+            caesarShift(statusMessage, 5);
             //printf("\n\n%s\n\n", status);
 
             //masukkan kedalam file
             FILE *fp = NULL;
             fp = fopen("status.txt", "w");
-            fputs(status, fp);
+            // fputs(statusMessage, fp);
+            fprintf(fp, "%s", statusMessage);
             fclose(fp);
 
             //kembali ke direktori sebelumnya
