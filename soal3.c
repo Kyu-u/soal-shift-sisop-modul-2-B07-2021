@@ -217,11 +217,6 @@ int main(int argc, char *argv[])
             while (wait(&statusB) > 0)
                 ;
 
-            char statusMessage[] = {"Download Success"};
-            //caesar cypher 5
-            caesarShift(statusMessage, 5);
-            //printf("\n\n%s\n\n", status);
-
             pidC = fork();
             //kembali ke direktori sebelumnya
             chdir("..");
@@ -232,6 +227,11 @@ int main(int argc, char *argv[])
             }
             if (pidC == 0)
             {
+                char statusMessage[] = {"Download Success"};
+                //caesar cypher 5
+                caesarShift(statusMessage, 5);
+                //printf("\n\n%s\n\n", status);
+
                 //masukkan kedalam file
                 FILE *fp = NULL;
                 fp = fopen("status.txt", "w");
