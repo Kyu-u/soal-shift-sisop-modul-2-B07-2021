@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
                 execv("/usr/bin/zip", argv);
             }
 
-            // pid_t pidD;
+            pid_t pidD;
 
             while (wait(&statusC) > 0)
                 ;
