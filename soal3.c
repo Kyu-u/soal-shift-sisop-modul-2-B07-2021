@@ -233,12 +233,15 @@ int main(int argc, char *argv[])
                 //melakukan zip direktori stringTime dengan format nama zipName
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
+
+                char *argv[] = {"rm", "-r", stringTime, NULL};
+                execv("/usr/bin/rm", argv);
             }
 
             // pid_t pidD;
 
-            while (wait(&statusC) > 0)
-                ;
+            // while (wait(&statusC) > 0)
+            //     ;
 
             // pidD = fork();
             // if (pidD < 0)
@@ -248,8 +251,8 @@ int main(int argc, char *argv[])
             // if (pidD == 0)
             // {
             //melakukan remove direktori sebelumnya
-            char *argv[] = {"rm", "-r", stringTime, NULL};
-            execv("/usr/bin/rm", argv);
+            // char *argv[] = {"rm", "-r", stringTime, NULL};
+            // execv("/usr/bin/rm", argv);
             // }
         }
         sleep(40);
