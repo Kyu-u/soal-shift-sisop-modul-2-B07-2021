@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
-        fprintf(fp, "#!/bin/bash\nkill %d\n", getpid() + 1);
+        fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
         fclose(fp);
 
         flag = 0;
@@ -214,12 +214,11 @@ int main(int argc, char *argv[])
             }
 
             pid_t pidC;
+
             while (wait(&statusB) > 0)
                 ;
 
             pidC = fork();
-            //kembali ke direktori sebelumnya
-            chdir("..");
 
             if (pidC < 0)
             {
@@ -237,6 +236,9 @@ int main(int argc, char *argv[])
                 fp = fopen("status.txt", "w");
                 fprintf(fp, "%s", statusMessage);
                 fclose(fp);
+
+                //kembali ke direktori sebelumnya
+                chdir("..");
 
                 //melakukan zip direktori stringTime dengan format nama zipName
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
