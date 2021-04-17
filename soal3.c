@@ -116,12 +116,16 @@ int main(int argc, char *argv[])
         fp = fopen("Killer.sh", "w");
         fprintf(fp, "#!/bin/bash\nkill %d\nkill %d\nrm Killer.sh", getpid() + 2, getpid() + 3);
         fclose(fp);
+
+        flag = 0;
     }
 
     // while (wait(&status0) > 0)
     //     ;
 
     daemonSkeleton();
+
+    int flag = 1;
 
     while (1)
     {
@@ -151,6 +155,11 @@ int main(int argc, char *argv[])
             //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
+
+            if (flag == 0)
+            {
+                exit(0);
+            }
         }
 
         sleep(1);
@@ -262,6 +271,11 @@ int main(int argc, char *argv[])
 
             while (wait(&statusE) > 0)
                 ;
+
+            if (flag == 0)
+            {
+                exit(0);
+            }
         }
         sleep(39);
     }
