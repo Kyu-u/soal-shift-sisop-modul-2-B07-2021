@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        int statFirstHalf, statusA, statusB, statusC;
+        int statFirstHalf;
 
         pid_t pidA;
         pidA = fork();
@@ -155,9 +155,9 @@ int main(int argc, char *argv[])
         }
         if (secHalf == 0)
         {
+            int statusA, statusB;
+
             pid_t pidB;
-            // while ((wait(&statusA)) > 0)
-            //     ;
 
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
