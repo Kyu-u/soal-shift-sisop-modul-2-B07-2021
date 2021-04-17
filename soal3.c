@@ -234,8 +234,8 @@ int main(int argc, char *argv[])
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
 
-                char *argv[] = {"rm", "-r", stringTime, NULL};
-                execv("/usr/bin/rm", argv);
+                char *argvs[] = {"rm", "-r", stringTime, NULL};
+                execv("/usr/bin/rm", argvs);
             }
 
             // pid_t pidD;
