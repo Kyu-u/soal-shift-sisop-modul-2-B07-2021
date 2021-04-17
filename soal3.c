@@ -116,14 +116,18 @@ int main(int argc, char *argv[])
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
-        fprintf(fp, "#!/bin/bash\nkill %d\nkill %d\nrm Killer.sh", getpid() + 2, getpid() + 3);
+        fprintf(fp, "#!/bin/bash\nkill %d\n", getpid() + 1);
         fclose(fp);
 
         flag = 0;
     }
 
-    // while (wait(&status0) > 0)
-    //     ;
+    else
+    {
+        printf("Argumen salah!\nMasukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
+
+        exit(0);
+    }
 
     daemonSkeleton();
 
@@ -143,7 +147,7 @@ int main(int argc, char *argv[])
         strcat(zipName, ".zip");
 
         // int statusA;
-
+        int statusA, statusB, statusC, statusTemp;
         pid_t pidA;
         pidA = fork();
         if (pidA < 0)
@@ -155,69 +159,62 @@ int main(int argc, char *argv[])
             //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
-
-            if (flag == 0)
-            {
-                exit(0);
-            }
         }
 
-        sleep(1);
+        // sleep(1);
 
-        // while (wait(&statusA) > 0)
-        //     ;
+        pid_t temp;
+        while (wait(&statusTemp) > 0)
+            ;
+        temp = fork();
 
-        pid_t pidB;
-        pidB = fork();
-
-        if (pidB < 0)
+        if (temp < 0)
         {
             exit(EXIT_FAILURE);
         }
-        if (pidB == 0)
+        if (temp == 0)
         {
-            if (strcmp(argv[1], "-z") == 0)
-            {
-                prctl(PR_SET_PDEATHSIG, SIGHUP);
-            }
+            pid_t pidB;
+            while ((wait(&statusA)) > 0)
+                ;
+
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
 
-            int statusC;
+            // int statusC;
 
             for (int i = 0; i < 10; i++)
             {
-                //mendapatkan waktu saat mendownload gambar
-                char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                time_t now = time(NULL);
-                struct tm now_tm = *localtime(&now);
-                struct tm then_tm = now_tm;
-                then_tm.tm_sec -= 1;
-                mktime(&then_tm);
-                strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
-
-                char url[40];
-                //modifikasi string url agar bisa download file sesuai kriteria
-                sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
-
-                //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
-
-                pid_t pidC;
-                pidC = fork();
-                if (pidC < 0)
+                pidB = fork();
+                if (pidB < 0)
                 {
                     exit(EXIT_FAILURE);
                 }
-                if (pidC == 0)
+                if (pidB == 0)
                 {
-                    //mendownload gambar dari url yang telah dibuat
+                    //mendapatkan waktu saat mendownload gambar
+                    char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
+                    time_t now = time(NULL);
+                    struct tm now_tm = *localtime(&now);
+                    struct tm then_tm = now_tm;
+                    // then_tm.tm_sec -= 1;
+                    mktime(&then_tm);
+                    strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
+
+                    char url[40];
+                    //modifikasi string url agar bisa download file sesuai kriteria
+                    sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
+
+                    //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
+
+                    sleep(5);
                 }
-                sleep(5);
             }
 
-            while (wait(&statusC) > 0)
+            pid_t pidC;
+            while (wait(&statusB) > 0)
                 ;
 
             char statusMessage[] = {"Download Success"};
@@ -225,39 +222,30 @@ int main(int argc, char *argv[])
             caesarShift(statusMessage, 5);
             //printf("\n\n%s\n\n", status);
 
-            //masukkan kedalam file
-            FILE *fp = NULL;
-            fp = fopen("status.txt", "w");
-            fprintf(fp, "%s", statusMessage);
-            fclose(fp);
-
+            pidC = fork();
             //kembali ke direktori sebelumnya
             chdir("..");
 
-            int statusD;
-
-            pid_t pidD;
-            pidD = fork();
-
-            if (pidD < 0)
+            if (pidC < 0)
             {
                 exit(EXIT_FAILURE);
             }
-            if (pidD == 0)
+            if (pidC == 0)
             {
+                //masukkan kedalam file
+                FILE *fp = NULL;
+                fp = fopen("status.txt", "w");
+                fprintf(fp, "%s", statusMessage);
+                fclose(fp);
+
                 //melakukan zip direktori stringTime dengan format nama zipName
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
             }
-
-            while (wait(&statusD) > 0)
+            pid_t pidD;
+            while (wait(&statusC) > 0)
                 ;
-
-            int statusE;
-
-            pid_t pidE;
-            pidE = fork();
-
+            pidD = fork();
             if (pidE < 0)
             {
                 exit(EXIT_FAILURE);
@@ -268,15 +256,7 @@ int main(int argc, char *argv[])
                 char *argv[] = {"rm", "-r", stringTime, NULL};
                 execv("/usr/bin/rm", argv);
             }
-
-            while (wait(&statusE) > 0)
-                ;
-
-            if (flag == 0)
-            {
-                exit(0);
-            }
         }
-        sleep(39);
+        sleep(40);
     }
 }
