@@ -139,11 +139,11 @@ int main(int argc, char *argv[])
         while (wait(&status0) > 0)
             ;
 
-        //masuk ke direktori yang telah dibuat
-        chdir(stringTime);
-
         if (fork() == 0)
         {
+            //masuk ke direktori yang telah dibuat
+            chdir(stringTime);
+
             for (int i = 0; i < 10; i++, sleep(5))
             {
                 time_t rawtime2;
