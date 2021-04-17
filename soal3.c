@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        int statusTemp, statusA, statusB, statusC;
+        int statusA, statusB, statusC;
 
         pid_t pidA;
         pidA = fork();
@@ -144,8 +144,8 @@ int main(int argc, char *argv[])
 
         pid_t temp;
 
-        while (wait(&statusTemp) > 0)
-            ;
+        // while (wait(&statusTemp) > 0)
+        //     ;
 
         temp = fork();
 
@@ -156,8 +156,8 @@ int main(int argc, char *argv[])
         if (temp == 0)
         {
             pid_t pidB;
-            // while ((wait(&statusA)) > 0)
-            //     ;
+            while ((wait(&statusA)) > 0)
+                ;
 
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
