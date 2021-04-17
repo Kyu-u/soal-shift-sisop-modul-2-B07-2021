@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 
             // int statusC;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++, sleep(5))
             {
                 pidB = fork();
                 if (pidB < 0)
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
 
-                    sleep(5);
+                    // sleep(5);
                 }
             }
 
