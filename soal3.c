@@ -127,13 +127,8 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        //membuat string dengan nama file untuk melakukan zip
-        char zipName[40];
-        strcpy(zipName, stringTime);
-        strcat(zipName, ".zip");
+        int statusTemp, statusA, statusB, statusC;
 
-        // int statusA;
-        int statusA, statusB, statusC, statusTemp;
         pid_t pidA;
         pidA = fork();
         if (pidA < 0)
@@ -146,8 +141,6 @@ int main(int argc, char *argv[])
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
         }
-
-        // sleep(1);
 
         pid_t temp;
         while (wait(&statusTemp) > 0)
@@ -166,8 +159,6 @@ int main(int argc, char *argv[])
 
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
-
-            // int statusC;
 
             for (int i = 0; i < 10; i++, sleep(5))
             {
@@ -194,11 +185,17 @@ int main(int argc, char *argv[])
                     //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
-
-                    // sleep(5);
                 }
             }
 
+            //membuat string dengan nama file untuk melakukan zip
+            char zipName[40];
+            strcpy(zipName, stringTime);
+            strcat(zipName, ".zip");
+
+            //melakukan zip direktori stringTime dengan format nama zipName
+            char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
+            execv("/usr/bin/zip", argv);
             pid_t pidC;
 
             while (wait(&statusB) > 0)
@@ -226,6 +223,11 @@ int main(int argc, char *argv[])
                 //kembali ke direktori sebelumnya
                 chdir("..");
 
+                //membuat string dengan nama file untuk melakukan zip
+                char zipName[40];
+                strcpy(zipName, stringTime);
+                strcat(zipName, ".zip");
+
                 //melakukan zip direktori stringTime dengan format nama zipName
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
@@ -237,6 +239,7 @@ int main(int argc, char *argv[])
                 ;
 
             pidD = fork();
+
             if (pidD < 0)
             {
                 exit(EXIT_FAILURE);
