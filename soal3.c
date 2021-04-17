@@ -245,17 +245,17 @@ int main(int argc, char *argv[])
             pid_t pidD;
             while (wait(&statusC) > 0)
                 ;
-            pidD = fork();
-            if (pidD < 0)
-            {
-                exit(EXIT_FAILURE);
-            }
-            if (pidD == 0)
-            {
-                //melakukan remove direktori sebelumnya
-                char *argv[] = {"rm", "-r", stringTime, NULL};
-                execv("/usr/bin/rm", argv);
-            }
+            // pidD = fork();
+            // if (pidD < 0)
+            // {
+            //     exit(EXIT_FAILURE);
+            // }
+            // if (pidD == 0)
+            // {
+            //melakukan remove direktori sebelumnya
+            char *argv[] = {"rm", "-r", stringTime, NULL};
+            execv("/usr/bin/rm", argv);
+            // }
         }
         sleep(40);
     }
