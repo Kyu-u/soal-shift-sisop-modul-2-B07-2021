@@ -91,7 +91,7 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
-    if (strcmp(argv[1], "-z") == 0)
+    if (argc == 2 && strcmp(argv[1], "-z") == 0)
     {
         //Killer bash program
         FILE *fp = NULL;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
         fputs(KILL, fp);
         fclose(fp);
     }
-    else if (strcmp(argv[1], "-x") == 0)
+    else if (argc == 2 && strcmp(argv[1], "-x") == 0)
     {
         //Killer bash program
         FILE *fp = NULL;
