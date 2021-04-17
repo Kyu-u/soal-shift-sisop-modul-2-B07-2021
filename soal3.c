@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        int statFirstHalf, statusA, statusB;
+        int statFirstHalf, statusA, statusB, statusC;
 
         pid_t pidA;
         pidA = fork();
@@ -160,27 +160,34 @@ int main(int argc, char *argv[])
             //     ;
 
             //masuk ke direktori yang telah dibuat
-
-            pidB = fork();
-
             chdir(stringTime);
 
-            if (pidB < 0)
+            for (int i = 0; i < 10; i++, sleep(5))
             {
-                exit(EXIT_FAILURE);
-            }
-            if (pidB == 0)
-            {
-                for (int i = 0; i < 10; i++, sleep(5))
+                pidB = fork();
+
+                if (pidB < 0)
                 {
+                    exit(EXIT_FAILURE);
+                }
+                if (pidB == 0)
+                {
+
                     //mendapatkan waktu saat mendownload gambar
-                    char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                    time_t now = time(NULL);
-                    struct tm now_tm = *localtime(&now);
-                    struct tm then_tm = now_tm;
+                    // char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
+                    // time_t now = time(NULL);
+                    // struct tm now_tm = *localtime(&now);
+                    // struct tm then_tm = now_tm;
                     // then_tm.tm_sec -= 1;
-                    mktime(&then_tm);
-                    strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
+                    // mktime(&then_tm);
+                    // strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
+
+                    time_t rawtime2;
+                    struct tm *timeinfo2;
+                    char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
+                    time(&rawtime2);
+                    timeinfo2 = localtime(&rawtime2);
+                    strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", timeinfo2);
 
                     char url[40];
                     //modifikasi string url agar bisa download file sesuai kriteria
