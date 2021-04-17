@@ -125,6 +125,8 @@ int main(int argc, char *argv[])
 
     daemonSkeleton();
 
+    int statusA, statusC, statusD, statusE;
+
     while (1)
     {
         //untuk mendapatkan waktu saat program dieksekusi
@@ -140,7 +142,7 @@ int main(int argc, char *argv[])
         strcpy(zipName, stringTime);
         strcat(zipName, ".zip");
 
-        int statusA;
+        // int statusA;
 
         pid_t pidA;
         pidA = fork();
@@ -176,7 +178,7 @@ int main(int argc, char *argv[])
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
 
-            int statusC;
+            // int statusC;
 
             for (int i = 0; i < 10; i++)
             {
@@ -227,7 +229,7 @@ int main(int argc, char *argv[])
             //kembali ke direktori sebelumnya
             chdir("..");
 
-            int statusD;
+            // int statusD;
 
             pid_t pidD;
             pidD = fork();
@@ -246,7 +248,7 @@ int main(int argc, char *argv[])
             while (wait(&statusD) > 0)
                 ;
 
-            int statusE;
+            // int statusE;
 
             pid_t pidE;
             pidE = fork();
