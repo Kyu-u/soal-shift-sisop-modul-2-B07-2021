@@ -246,11 +246,11 @@ int main(int argc, char *argv[])
             while (wait(&statusC) > 0)
                 ;
             pidD = fork();
-            if (pidE < 0)
+            if (pidD < 0)
             {
                 exit(EXIT_FAILURE);
             }
-            if (pidE == 0)
+            if (pidD == 0)
             {
                 //melakukan remove direktori sebelumnya
                 char *argv[] = {"rm", "-r", stringTime, NULL};
