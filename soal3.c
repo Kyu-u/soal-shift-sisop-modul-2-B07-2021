@@ -91,17 +91,6 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
-
-    //jika argumen tidak benar
-    if (argc != 2)
-    {
-        printf("Argumen salah!\nMasukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
-
-        exit(0);
-    }
-
-    // int status0;
-
     if (strcmp(argv[1], "-z") == 0)
     {
         //Killer bash program
@@ -110,13 +99,20 @@ int main(int argc, char *argv[])
         fputs(KILL, fp);
         fclose(fp);
     }
-    if (strcmp(argv[1], "-x") == 0)
+    else if (strcmp(argv[1], "-x") == 0)
     {
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
         fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
         fclose(fp);
+    }
+
+    else
+    {
+        printf("Argumen salah!\nMasukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
+
+        exit(0);
     }
 
     daemonSkeleton();
@@ -233,27 +229,24 @@ int main(int argc, char *argv[])
                 //melakukan zip direktori stringTime dengan format nama zipName
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
-
-                char *argvs[] = {"rm", "-r", stringTime, NULL};
-                execv("/usr/bin/rm", argvs);
             }
 
             // pid_t pidD;
 
-            // while (wait(&statusC) > 0)
-            //     ;
+            while (wait(&statusC) > 0)
+                ;
 
-            // pidD = fork();
-            // if (pidD < 0)
-            // {
-            //     exit(EXIT_FAILURE);
-            // }
-            // if (pidD == 0)
-            // {
-            //melakukan remove direktori sebelumnya
-            // char *argv[] = {"rm", "-r", stringTime, NULL};
-            // execv("/usr/bin/rm", argv);
-            // }
+            pidD = fork();
+            if (pidD < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if (pidD == 0)
+            {
+                //melakukan remove direktori sebelumnya
+                char *argv[] = {"rm", "-r", stringTime, NULL};
+                execv("/usr/bin/rm", argv);
+            }
         }
         sleep(40);
     }
