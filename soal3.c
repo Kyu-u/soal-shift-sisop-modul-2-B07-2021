@@ -111,7 +111,6 @@ int main(int argc, char *argv[])
     if (strcmp(argv[1], "-x") == 0)
     {
         flag = 0;
-
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
         fputs(TERM, fp);
@@ -120,7 +119,7 @@ int main(int argc, char *argv[])
 
     daemonSkeleton();
 
-    while (flag)
+    while (1)
     {
         //untuk mendapatkan waktu saat program dieksekusi
         time_t rawtime;
@@ -232,6 +231,8 @@ int main(int argc, char *argv[])
             while (wait(&statusD) > 0)
                 ;
 
+            int statusE;
+
             pid_t pidE;
             pidE = fork();
 
@@ -245,6 +246,10 @@ int main(int argc, char *argv[])
                 char *argv[] = {"rm", "-r", stringTime, NULL};
                 execv("/usr/bin/rm", argv);
             }
+
+            while (wait(&statusE) > 0)
+                ;
+
             if (flag == 0)
             {
                 exit(0);
