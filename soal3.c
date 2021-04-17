@@ -188,20 +188,26 @@ int main(int argc, char *argv[])
                 }
             }
 
-            //membuat string dengan nama file untuk melakukan zip
-            char zipName[40];
-            strcpy(zipName, stringTime);
-            strcat(zipName, ".zip");
-
-            //melakukan zip direktori stringTime dengan format nama zipName
-            char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
-            execv("/usr/bin/zip", argv);
             pid_t pidC;
 
             while (wait(&statusB) > 0)
                 ;
 
+            char statusMessage[] = {"Download Success"};
+            //caesar cypher 5
+            caesarShift(statusMessage, 5);
+            //printf("\n\n%s\n\n", status);
+
+            //masukkan kedalam file
+            FILE *fp = NULL;
+            fp = fopen("status.txt", "w");
+            fprintf(fp, "%s", statusMessage);
+            fclose(fp);
+
             pidC = fork();
+
+            //kembali ke direktori sebelumnya
+            chdir("..");
 
             if (pidC < 0)
             {
@@ -209,19 +215,6 @@ int main(int argc, char *argv[])
             }
             if (pidC == 0)
             {
-                char statusMessage[] = {"Download Success"};
-                //caesar cypher 5
-                caesarShift(statusMessage, 5);
-                //printf("\n\n%s\n\n", status);
-
-                //masukkan kedalam file
-                FILE *fp = NULL;
-                fp = fopen("status.txt", "w");
-                fprintf(fp, "%s", statusMessage);
-                fclose(fp);
-
-                //kembali ke direktori sebelumnya
-                chdir("..");
 
                 //membuat string dengan nama file untuk melakukan zip
                 char zipName[40];
@@ -229,7 +222,7 @@ int main(int argc, char *argv[])
                 strcat(zipName, ".zip");
 
                 //melakukan zip direktori stringTime dengan format nama zipName
-                char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
+                char *argv[] = {"zip", "-r", zipName, stringTime, NULL};
                 execv("/usr/bin/zip", argv);
             }
 
