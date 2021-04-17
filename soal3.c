@@ -143,8 +143,10 @@ int main(int argc, char *argv[])
         }
 
         pid_t temp;
+
         while (wait(&statusTemp) > 0)
             ;
+
         temp = fork();
 
         if (temp < 0)
@@ -154,8 +156,8 @@ int main(int argc, char *argv[])
         if (temp == 0)
         {
             pid_t pidB;
-            while ((wait(&statusA)) > 0)
-                ;
+            // while ((wait(&statusA)) > 0)
+            //     ;
 
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
