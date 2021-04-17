@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
-        fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid());
+        fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
         fclose(fp);
     }
 
@@ -134,6 +134,8 @@ int main(int argc, char *argv[])
             //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
+
+            chdir(stringTime);
         }
 
         while (wait(&status0) > 0)
@@ -142,9 +144,8 @@ int main(int argc, char *argv[])
         if (fork() == 0)
         {
             //masuk ke direktori yang telah dibuat
-            chdir(stringTime);
 
-            for (int i = 0; i < 10; i++, sleep(5))
+            for (int i = 0; i < 10; i++)
             {
                 time_t rawtime2;
                 struct tm *timeinfo2;
@@ -162,6 +163,7 @@ int main(int argc, char *argv[])
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
                 }
+                sleep(5)
             }
 
             char statusMessage[] = {"Download Success"};
