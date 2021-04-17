@@ -160,9 +160,10 @@ int main(int argc, char *argv[])
             //     ;
 
             //masuk ke direktori yang telah dibuat
-            chdir(stringTime);
 
             pidB = fork();
+
+            chdir(stringTime);
 
             if (pidB < 0)
             {
@@ -207,11 +208,11 @@ int main(int argc, char *argv[])
             fprintf(fp, "%s", statusMessage);
             fclose(fp);
 
-            
             //kembali ke direktori sebelumnya
-            chdir("..");
 
             pidC = fork();
+
+            chdir("..");
 
             if (pidC < 0)
             {
