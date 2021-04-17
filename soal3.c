@@ -91,7 +91,6 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
-    int flag = 1;
 
     //jika argumen tidak benar
     if (argc != 2)
@@ -118,15 +117,6 @@ int main(int argc, char *argv[])
         fp = fopen("Killer.sh", "w");
         fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
         fclose(fp);
-
-        flag = 0;
-    }
-
-    else
-    {
-        printf("Argumen salah!\nMasukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
-
-        exit(0);
     }
 
     daemonSkeleton();
@@ -244,20 +234,23 @@ int main(int argc, char *argv[])
                 char *argv[] = {"zip", zipName, "-r", stringTime, NULL};
                 execv("/usr/bin/zip", argv);
             }
-            pid_t pidD;
+
+            // pid_t pidD;
+
             while (wait(&statusC) > 0)
                 ;
-            pidD = fork();
-            if (pidD < 0)
-            {
-                exit(EXIT_FAILURE);
-            }
-            if (pidD == 0)
-            {
-                //melakukan remove direktori sebelumnya
-                char *argv[] = {"rm", "-r", stringTime, NULL};
-                execv("/usr/bin/rm", argv);
-            }
+
+            // pidD = fork();
+            // if (pidD < 0)
+            // {
+            //     exit(EXIT_FAILURE);
+            // }
+            // if (pidD == 0)
+            // {
+            //melakukan remove direktori sebelumnya
+            char *argv[] = {"rm", "-r", stringTime, NULL};
+            execv("/usr/bin/rm", argv);
+            // }
         }
         sleep(40);
     }
