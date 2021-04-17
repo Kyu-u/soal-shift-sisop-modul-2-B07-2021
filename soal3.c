@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 
                     char url[40];
                     //modifikasi string url agar bisa download file sesuai kriteria
-                    sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
+                    sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
 
                     //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
