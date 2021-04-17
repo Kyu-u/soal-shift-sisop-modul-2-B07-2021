@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    int status0;
+    // int status0;
 
     if (strcmp(argv[1], "-z") == 0 || strcmp(argv[1], "-x") == 0)
     {
@@ -109,19 +109,19 @@ int main(int argc, char *argv[])
         fprintf(fp, "#!/bin/bash\nkill %d\nkill %d\nrm Killer.sh", getpid() + 2, getpid() + 3);
         fclose(fp);
 
-        pid_t pid0;
-        pid0 = fork();
-        if (pid0 < 0)
-            exit(EXIT_FAILURE);
-        if (pid0 == 0)
-        {
-            char *argv[] = {"chmod", "u+x", "Killer.sh", NULL};
-            execv("/bin/chmod", argv);
-        }
+        // pid_t pid0;
+        // pid0 = fork();
+        // if (pid0 < 0)
+        //     exit(EXIT_FAILURE);
+        // if (pid0 == 0)
+        // {
+        //     char *argv[] = {"chmod", "u+x", "Killer.sh", NULL};
+        //     execv("/bin/chmod", argv);
+        // }
     }
 
-    while (wait(&status0) > 0)
-        ;
+    // while (wait(&status0) > 0)
+    //     ;
 
     daemonSkeleton();
 
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         strcpy(zipName, stringTime);
         strcat(zipName, ".zip");
 
-        int statusA;
+        // int statusA;
 
         pid_t pidA;
         pidA = fork();
@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
 
         sleep(1);
 
-        while (wait(&statusA) > 0)
-            ;
+        // while (wait(&statusA) > 0)
+        //     ;
 
         pid_t pidB;
         pidB = fork();
