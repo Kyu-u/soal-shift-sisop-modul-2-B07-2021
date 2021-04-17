@@ -91,6 +91,8 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
+    int flag = 1;
+
     //jika argumen tidak benar
     if (argc != 2)
     {
@@ -124,8 +126,6 @@ int main(int argc, char *argv[])
     //     ;
 
     daemonSkeleton();
-
-    int flag = 1;
 
     while (1)
     {
