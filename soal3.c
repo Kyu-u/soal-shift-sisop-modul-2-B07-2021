@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
                 time_t now = time(NULL);
                 struct tm now_tm = *localtime(&now);
                 struct tm then_tm = now_tm;
-                then_tm.tm_sec -= 1;
+                // then_tm.tm_sec -= 1;
                 mktime(&then_tm);
                 strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
 
