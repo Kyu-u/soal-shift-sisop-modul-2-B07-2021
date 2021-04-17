@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        int statusA, statusB, statusC;
+        int statFirstHalf, statusA, statusB;
 
         pid_t pidA;
         pidA = fork();
@@ -142,34 +142,35 @@ int main(int argc, char *argv[])
             execv("/bin/mkdir", argv);
         }
 
-        pid_t temp;
+        pid_t secHalf;
 
-        // while (wait(&statusTemp) > 0)
-        //     ;
+        while (wait(&statFirstHalf) > 0)
+            ;
 
-        temp = fork();
+        secHalf = fork();
 
-        if (temp < 0)
+        if (secHalf < 0)
         {
             exit(EXIT_FAILURE);
         }
-        if (temp == 0)
+        if (secHalf == 0)
         {
             pid_t pidB;
-            while ((wait(&statusA)) > 0)
-                ;
+            // while ((wait(&statusA)) > 0)
+            //     ;
 
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
 
-            for (int i = 0; i < 10; i++, sleep(5))
+            pidB = fork();
+
+            if (pidB < 0)
             {
-                pidB = fork();
-                if (pidB < 0)
-                {
-                    exit(EXIT_FAILURE);
-                }
-                if (pidB == 0)
+                exit(EXIT_FAILURE);
+            }
+            if (pidB == 0)
+            {
+                for (int i = 0; i < 10; i++, sleep(5))
                 {
                     //mendapatkan waktu saat mendownload gambar
                     char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
@@ -192,7 +193,7 @@ int main(int argc, char *argv[])
 
             pid_t pidC;
 
-            while (wait(&statusB) > 0)
+            while (wait(&statusA) > 0)
                 ;
 
             char statusMessage[] = {"Download Success"};
@@ -206,10 +207,11 @@ int main(int argc, char *argv[])
             fprintf(fp, "%s", statusMessage);
             fclose(fp);
 
-            pidC = fork();
-
+            
             //kembali ke direktori sebelumnya
             chdir("..");
+
+            pidC = fork();
 
             if (pidC < 0)
             {
@@ -230,7 +232,7 @@ int main(int argc, char *argv[])
 
             pid_t pidD;
 
-            while (wait(&statusC) > 0)
+            while (wait(&statusB) > 0)
                 ;
 
             pidD = fork();
