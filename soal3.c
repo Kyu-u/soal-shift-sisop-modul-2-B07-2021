@@ -9,17 +9,19 @@
 #include <syslog.h>
 #include <string.h>
 #include <time.h>
+#include <sys/prctl.h>
 
-#define KILL "\
-#!/bin/bash\n\
-pkill -9 soal3\n\
-rm Killer.sh\n\
-"
-#define TERM "\
-#!/bin/bash\n\
-pkill soal3\n\
-rm Killer.sh\n\
-"
+// #define KILL "\
+// #!/bin/bash\n\
+// pkill soal3\n\
+// rm Killer.sh\n\
+// "
+
+// #define TERM "\
+// #!/bin/bash\n\
+// pkill soal3\n\
+// rm Killer.sh\n\
+// "
 
 void daemonSkeleton()
 {
@@ -89,33 +91,37 @@ void caesarShift(char word[], int key)
 
 int main(int argc, char *argv[])
 {
-    int flag = 1;
-
     //jika argumen tidak benar
     if (argc != 2)
     {
-        printf("Argumen salah!\n Masukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
+        printf("Argumen salah!\nMasukkan \"-z\" sebagai argumen 1 atau \"-x\" sebagai argumen 2!\n");
 
         exit(0);
     }
 
-    //mode pertama
-    if (strcmp(argv[1], "-z") == 0)
+    int status0;
+
+    if (strcmp(argv[1], "-z") == 0 || strcmp(argv[1], "-x") == 0)
     {
+        //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
-        fputs(KILL, fp);
+        fprintf(fp, "#!/bin/bash\nkill %d\nkill %d\nrm Killer.sh", getpid() + 2, getpid() + 3);
         fclose(fp);
+
+        pid_t pid0;
+        pid0 = fork();
+        if (pid0 < 0)
+            exit(EXIT_FAILURE);
+        if (pid0 == 0)
+        {
+            char *argv[] = {"chmod", "u+x", "Killer.sh", NULL};
+            execv("/bin/chmod", argv);
+        }
     }
-    //mode kedua
-    if (strcmp(argv[1], "-x") == 0)
-    {
-        flag = 0;
-        FILE *fp = NULL;
-        fp = fopen("Killer.sh", "w");
-        fputs(TERM, fp);
-        fclose(fp);
-    }
+
+    while (wait(&status0) > 0)
+        ;
 
     daemonSkeleton();
 
@@ -134,6 +140,8 @@ int main(int argc, char *argv[])
         strcpy(zipName, stringTime);
         strcat(zipName, ".zip");
 
+        int statusA;
+
         pid_t pidA;
         pidA = fork();
         if (pidA < 0)
@@ -147,7 +155,10 @@ int main(int argc, char *argv[])
             execv("/bin/mkdir", argv);
         }
 
-        sleep(1);
+        // sleep(1);
+
+        while (wait(&statusA) > 0)
+            ;
 
         pid_t pidB;
         pidB = fork();
@@ -158,6 +169,10 @@ int main(int argc, char *argv[])
         }
         if (pidB == 0)
         {
+            if (strcmp(argv[1], "-z") == 0)
+            {
+                prctl(PR_SET_PDEATHSIG, SIGHUP);
+            }
             //masuk ke direktori yang telah dibuat
             chdir(stringTime);
 
@@ -249,12 +264,7 @@ int main(int argc, char *argv[])
 
             while (wait(&statusE) > 0)
                 ;
-
-            if (flag == 0)
-            {
-                exit(0);
-            }
         }
-        sleep(39);
+        sleep(40);
     }
 }
