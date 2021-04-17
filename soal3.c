@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
             //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
-
-            chdir(stringTime);
         }
+
+        sleep(1);
 
         while (wait(&status0) > 0)
             ;
@@ -144,6 +144,7 @@ int main(int argc, char *argv[])
         if (fork() == 0)
         {
             //masuk ke direktori yang telah dibuat
+            chdir(stringTime);
 
             for (int i = 0; i < 10; i++)
             {
@@ -189,6 +190,6 @@ int main(int argc, char *argv[])
             char *argv[] = {"zip", "-rm", zipName, stringTime, NULL};
             execv("/usr/bin/zip", argv);
         }
-        sleep(40);
+        sleep(39);
     }
 }
