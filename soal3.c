@@ -11,11 +11,11 @@
 #include <time.h>
 #include <sys/prctl.h>
 
-// #define KILL "\
-// #!/bin/bash\n\
-// pkill soal3\n\
-// rm Killer.sh\n\
-// "
+#define KILL "\
+#!/bin/bash\n\
+pkill soal3\n\
+rm Killer.sh\n\
+"
 
 // #define TERM "\
 // #!/bin/bash\n\
@@ -101,23 +101,21 @@ int main(int argc, char *argv[])
 
     // int status0;
 
-    if (strcmp(argv[1], "-z") == 0 || strcmp(argv[1], "-x") == 0)
+    if (strcmp(argv[1], "-z") == 0)
+    {
+        //Killer bash program
+        FILE *fp = NULL;
+        fp = fopen("Killer.sh", "w");
+        fputs(KILL, fp);
+        fclose(fp);
+    }
+    if (strcmp(argv[1], "-x") == 0)
     {
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
         fprintf(fp, "#!/bin/bash\nkill %d\nkill %d\nrm Killer.sh", getpid() + 2, getpid() + 3);
         fclose(fp);
-
-        // pid_t pid0;
-        // pid0 = fork();
-        // if (pid0 < 0)
-        //     exit(EXIT_FAILURE);
-        // if (pid0 == 0)
-        // {
-        //     char *argv[] = {"chmod", "u+x", "Killer.sh", NULL};
-        //     execv("/bin/chmod", argv);
-        // }
     }
 
     // while (wait(&status0) > 0)
