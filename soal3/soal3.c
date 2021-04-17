@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 
                 char url[40];
                 //modifikasi string url agar bisa download file sesuai kriteria
-                sprintf(url, "https://picsum.photos/%ld", (now % 1000) + 50);
+                sprintf(url, "https://picsum.photos/%ld", ((now - 1) % 1000) + 50);
 
                 if (fork() == 0)
                 {
