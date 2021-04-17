@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
                 }
-                sleep(5)
+                sleep(5);
             }
 
             char statusMessage[] = {"Download Success"};
