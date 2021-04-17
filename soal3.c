@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         //Killer bash program
         FILE *fp = NULL;
         fp = fopen("Killer.sh", "w");
-        fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
+        fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid());
         fclose(fp);
     }
 
@@ -127,82 +127,42 @@ int main(int argc, char *argv[])
         timeinfo = localtime(&rawtime);
         strftime(stringTime, sizeof(stringTime), "%Y-%m-%d_%X", timeinfo);
 
-        int statFirstHalf;
+        int status0;
 
-        pid_t pidA;
-        pidA = fork();
-        if (pidA < 0)
-        {
-            exit(EXIT_FAILURE);
-        }
-        if (pidA == 0)
+        if (fork() == 0)
         {
             //membuat direktori baru dengan nama waktu yang telah ditentukan
             char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
         }
 
-        pid_t secHalf;
-
-        while (wait(&statFirstHalf) > 0)
+        while (wait(&status0) > 0)
             ;
 
-        secHalf = fork();
+        //masuk ke direktori yang telah dibuat
+        chdir(stringTime);
 
-        if (secHalf < 0)
+        if (fork() == 0)
         {
-            exit(EXIT_FAILURE);
-        }
-        if (secHalf == 0)
-        {
-            int statusA, statusB;
-
-            pid_t pidB;
-
-            //masuk ke direktori yang telah dibuat
-            chdir(stringTime);
-
             for (int i = 0; i < 10; i++, sleep(5))
             {
-                pidB = fork();
+                time_t rawtime2;
+                struct tm *timeinfo2;
+                char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
+                time(&rawtime2);
+                timeinfo2 = localtime(&rawtime2);
+                strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", timeinfo2);
 
-                if (pidB < 0)
+                char url[40];
+                //modifikasi string url agar bisa download file sesuai kriteria
+                sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
+
+                if (fork() == 0)
                 {
-                    exit(EXIT_FAILURE);
-                }
-                if (pidB == 0)
-                {
-
-                    //mendapatkan waktu saat mendownload gambar
-                    // char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                    // time_t now = time(NULL);
-                    // struct tm now_tm = *localtime(&now);
-                    // struct tm then_tm = now_tm;
-                    // then_tm.tm_sec -= 1;
-                    // mktime(&then_tm);
-                    // strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", &then_tm);
-
-                    time_t rawtime2;
-                    struct tm *timeinfo2;
-                    char stringTime2[sizeof "YYYY-MM-DD_HH:MM:SS"];
-                    time(&rawtime2);
-                    timeinfo2 = localtime(&rawtime2);
-                    strftime(stringTime2, sizeof(stringTime2), "%Y-%m-%d_%X", timeinfo2);
-
-                    char url[40];
-                    //modifikasi string url agar bisa download file sesuai kriteria
-                    sprintf(url, "https://picsum.photos/%ld", (rawtime2 % 1000) + 50);
-
-                    //printf("\n\nepoch = %ld\n\n", (rawtime2 % 1000) + 50);
                     char *argv[] = {"wget", url, "-O", stringTime2, NULL};
                     execv("/usr/bin/wget", argv);
                 }
             }
-
-            pid_t pidC;
-
-            while (wait(&statusA) > 0)
-                ;
 
             char statusMessage[] = {"Download Success"};
             //caesar cypher 5
@@ -216,45 +176,16 @@ int main(int argc, char *argv[])
             fclose(fp);
 
             //kembali ke direktori sebelumnya
-
-            pidC = fork();
-
             chdir("..");
 
-            if (pidC < 0)
-            {
-                exit(EXIT_FAILURE);
-            }
-            if (pidC == 0)
-            {
+            //membuat string dengan nama file untuk melakukan zip
+            char zipName[40];
+            strcpy(zipName, stringTime);
+            strcat(zipName, ".zip");
 
-                //membuat string dengan nama file untuk melakukan zip
-                char zipName[40];
-                strcpy(zipName, stringTime);
-                strcat(zipName, ".zip");
-
-                //melakukan zip direktori stringTime dengan format nama zipName
-                char *argv[] = {"zip", "-r", zipName, stringTime, NULL};
-                execv("/usr/bin/zip", argv);
-            }
-
-            pid_t pidD;
-
-            while (wait(&statusB) > 0)
-                ;
-
-            pidD = fork();
-
-            if (pidD < 0)
-            {
-                exit(EXIT_FAILURE);
-            }
-            if (pidD == 0)
-            {
-                //melakukan remove direktori sebelumnya
-                char *argv[] = {"rm", "-r", stringTime, NULL};
-                execv("/usr/bin/rm", argv);
-            }
+            //melakukan zip direktori stringTime dengan format nama zipName
+            char *argv[] = {"zip", "-rm", zipName, stringTime, NULL};
+            execv("/usr/bin/zip", argv);
         }
         sleep(40);
     }
