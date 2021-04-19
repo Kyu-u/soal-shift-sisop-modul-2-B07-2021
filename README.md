@@ -233,7 +233,7 @@ rm Killer.sh\n\
 
 Untuk argumen `-z` ini, program akan melakukan `pkill soal3` yaitu process kill soal3, dimana soal3 merupakan nama programnya. Program akan langsung selesai berjalan seadanya.
 
-![soal3e](Screenshots/3e.png)
+![soal3e2](Screenshots/3e2.png)
 
 Jika argumen berisi `-x`, maka file bash akan berisi 
 ```c
@@ -242,7 +242,7 @@ fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
 
 dimana program bash tersebut jika di run akan membunuh proses `getpid() + 1`, yaitu proses pembuatan direktori. Proses setelah-setelahnya masih akan dijalankan sampai selesai.
 
-![soal3e2](Screenshots/3e2.png)
+![soal3e](Screenshots/3e.png)
 
 Untuk argumen yang selain dari kedua argumen diatas, kami menambahkan output bahwa argumen salah dan lansgung exit program.
 
