@@ -42,7 +42,7 @@ char *argv[] = {"mkdir", stringTime, NULL};
             execv("/bin/mkdir", argv);
 ```
 
-![soal3a](Screenshots/soal3a.png)
+![soal3a](Screenshots/3a.png)
 
 ### 3B ###
 
@@ -101,7 +101,7 @@ char *argv[] = {"wget", url, "-O", stringTime2, NULL};
 
 Proses ini berjalan setiap 5 detik, maka kami tambahkan  `sleep(5)` pada akhir loop.
 
-![soal3b](Screenshots/soal3b.png)
+![soal3b](Screenshots/3b.png)
 
 ### 3C ###
 
@@ -168,7 +168,7 @@ void caesarShift(char word[], int key)
 }
 ```
 
-![soal3c](Screenshots/soal3c.png)
+![soal3c](Screenshots/3c.png)
 
 Setelah itu hasilnya kami masukkan kedalam file `status.txt` pada direktori yang sama.
 
@@ -233,7 +233,7 @@ rm Killer.sh\n\
 
 Untuk argumen `-z` ini, program akan melakukan `pkill soal3` yaitu process kill soal3, dimana soal3 merupakan nama programnya. Program akan langsung selesai berjalan seadanya.
 
-![soal3e](Screenshots/soal3e.png)
+![soal3e](Screenshots/3e.png)
 
 Jika argumen berisi `-x`, maka file bash akan berisi 
 ```c
@@ -242,7 +242,7 @@ fprintf(fp, "#!/bin/bash\nkill %d\nrm Killer.sh\n", getpid() + 1);
 
 dimana program bash tersebut jika di run akan membunuh proses `getpid() + 1`, yaitu proses pembuatan direktori. Proses setelah-setelahnya masih akan dijalankan sampai selesai.
 
-![soal3e2](Screenshots/soal3e.png)
+![soal3e2](Screenshots/3e2.png)
 
 Untuk argumen yang selain dari kedua argumen diatas, kami menambahkan output bahwa argumen salah dan lansgung exit program.
 
