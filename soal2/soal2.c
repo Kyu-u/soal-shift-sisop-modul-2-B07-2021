@@ -78,6 +78,7 @@ void detail(char *asalnya, char *hewan){
 	char isinya[300];
 	sprintf(isinya, "nama : %s \numur : %s\n\n", nama, umur);
 	
+	;
 	pid_t move_id;
 	move_id = fork();
 	if (move_id<0){
