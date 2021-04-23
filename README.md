@@ -28,10 +28,10 @@ Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus 
 Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut. Format harus sesuai contohnya.
 ________________
 nama : joni
-umur  : 3 tahun
+\numur  : 3 tahun
 
 nama : miko
-umur  : 2 tahun
+\numur  : 2 tahun
 ________________
 
 ## Soal 3
