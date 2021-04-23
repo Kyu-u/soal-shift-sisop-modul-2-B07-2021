@@ -20,6 +20,7 @@ void folder2a(){
     	execv("/bin/mkdir", argvA);
    	}
    	while((wait(&status))>0);
+	int status2;
    	pid_t unzip_id;
    	unzip_id = fork();
    	if (unzip_id<0){
@@ -29,6 +30,7 @@ void folder2a(){
     	char *argvB[] = {"unzip", "/home/hanifa/modul2/pets.zip", "-d", "/home/hanifa/modul2/petshop", "-x", "*/*", NULL};
     	execv("/usr/bin/unzip", argvB);
    	}
+	while((wait(&status2))>0);
 }
 
 void folder2b(){
@@ -44,7 +46,7 @@ void folder2b(){
           	char *name = strtok(filename, delim1);
           	char makefolder[100] = "/home/hanifa/modul2/petshop/";
           	strcat(makefolder, name);
-	  		while((wait(&status3))>0);
+			
 	  		pid_t folder_id;
 	  		folder_id = fork();
 	   		if (folder_id<0){
@@ -54,13 +56,14 @@ void folder2b(){
 	       		char *argvC[] = {"mkdir", "-p", makefolder, NULL};
                	execv("/bin/mkdir", argvC);
 	    	}
+			while((wait(&status3))>0);
     	}
     }
     closedir(d);
 }
 
 void detail(char *asalnya, char *hewan){
-	int status;
+	int status4;
 	char *delim1 = ";";
 	char *jenis = strtok(hewan, delim1);
 	char *nama = strtok(NULL, delim1);
@@ -75,14 +78,6 @@ void detail(char *asalnya, char *hewan){
 	char isinya[300];
 	sprintf(isinya, "nama : %s \numur : %s\n\n", nama, umur);
 	
-	FILE *keterangan;
-	keterangan = fopen(ket_path, "a"); //agar bisa membuka dan menulis txt
-	if(keterangan){
-		fprintf(keterangan, "%s", isinya);
-		fclose(keterangan);
-	}
-	
-	while((wait(&status))>0);
 	pid_t move_id;
 	move_id = fork();
 	if (move_id<0){
@@ -92,11 +87,19 @@ void detail(char *asalnya, char *hewan){
 		char *argvD[] = {"cp", asalnya, newname, NULL};
 		execv("/bin/cp", argvD);
 	}
+	while((wait(&status4))>0);
+
+	FILE *keterangan;
+	keterangan = fopen(ket_path, "a"); //agar bisa membuka dan menulis txt
+	if(keterangan){
+		fprintf(keterangan, "%s", isinya);
+		fclose(keterangan);
+	}
 }
 
 
 void move2c(){
-	int status2;
+	int status5;
 	DIR *d;
     struct dirent *dir;
     d = opendir("/home/hanifa/modul2/petshop");
@@ -120,7 +123,7 @@ void move2c(){
 			
 			detail(asal, animal1);
 			
-			while((wait(&status2))>0);
+			
 			pid_t delete_id;
 			delete_id = fork();
 			if (delete_id<0){
@@ -130,16 +133,15 @@ void move2c(){
 				char *argvE[] = {"rm", asal, NULL};
 				execv("/bin/rm", argvE);
 			}
+			while((wait(&status5))>0);
        	}
     }
     closedir(d);
 }
 
 int main() {
-    int statuss;
     chdir("/home/hanifa/modul2");
     folder2a();
-    while((wait(&statuss))>0);
     folder2b();
     move2c();
     return 0;
