@@ -12,10 +12,118 @@ Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang ber
 ### 2A ###
 Pertama-tama program perlu mengextract zip yang diberikan ke dalam folder “/home/[user]/modul2/petshop”. Karena bos Loba teledor, dalam zip tersebut bisa berisi folder-folder yang tidak penting, maka program harus bisa membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.
 
+**Fungsi folder2a()**
+```c
+void folder2a(){
+	int status;
+	pid_t pid1;
+	pid1 = fork();
+	if (pid1 < 0){
+		exit(EXIT_FAILURE);
+   	}
+   	if (pid1 == 0) {
+    	char *argvA[] = {"mkdir", "-p", "./petshop", NULL};
+    	execv("/bin/mkdir", argvA);
+   	}
+   	while((wait(&status))>0);
+	int status2;
+   	pid_t unzip_id;
+   	unzip_id = fork();
+   	if (unzip_id<0){
+    	exit(EXIT_FAILURE);
+   	}
+   	if (unzip_id == 0){
+    	char *argvB[] = {"unzip", "/home/hanifa/modul2/pets.zip", "-d", "/home/hanifa/modul2/petshop", "-x", "*/*", NULL};
+    	execv("/usr/bin/unzip", argvB);
+   	}
+	while((wait(&status2))>0);
+}
+```
+
+Pada soal ini diminta untuk **mengekstrak zip** yaitu `pets.zip`. Di folder **petshop**, dimana yang digunakan hanyalah yang file saja. Untuk membuat folder **petshop** menggunakan perintah `mkdir` dengan diikuti `-p` yang diikuti dengan `./petshop` untuk mengeset nya menjadi parent. 
+```c
+char *argvA[] = {"mkdir", "-p", "./petshop", NULL};
+execv("/bin/mkdir", argvA);
+```
+
+Sedangkan untuk melakukan ekstrak pada `pets.zip`, menggunakan perintah `unzip` dengan diikuti *letak dari file `pets.zip`* lalu `-d` dan diikuti _letak tujuan dari file_ yang diekstrak. Karena yang diperlukan hanya yang bertipe file, maka digunakan perintah `x` yang diikuti `*/*` yang berarti mengecualikan yang bertipe folder/direktori.
+```c
+char *argvB[] = {"unzip", "/home/hanifa/modul2/pets.zip", "-d", "/home/hanifa/modul2/petshop", "-x", "*/*", NULL};
+execv("/usr/bin/unzip", argvB);
+```
+
+Sehingga ketika kodingan pada fungsi `folder2a()` ini dipanggil dibagian **main**, dapat menghasilkan seperti gambar berikut ini.
+
+![soal2a1](Screenshots/soal2a1.jpg)
+![soal2a2](Screenshots/soal2a2.jpg)
 
 ### 2B ###
 Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam zip. Karena kamu tidak mungkin memeriksa satu-persatu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip.
 Contoh: Jenis peliharaan kucing akan disimpan dalam “/petshop/cat”, jenis peliharaan kura-kura akan disimpan dalam “/petshop/turtle”.
+
+**Fungsi folder2b()**
+```c
+void folder2b(){
+	int status3;
+	DIR *d;
+	struct dirent *dir;
+	d = opendir("/home/hanifa/modul2/petshop");
+    char *delim1 = ";";
+    while ((dir = readdir(d)) != NULL) {
+    	if ((strcmp(dir->d_name, "..")!=0) && (strcmp(dir->d_name, ".")!=0)){
+        	char filename[100] = "";
+    		strcpy(filename, dir->d_name);
+          	char *name = strtok(filename, delim1);
+          	char makefolder[100] = "/home/hanifa/modul2/petshop/";
+          	strcat(makefolder, name);
+			
+	  		pid_t folder_id;
+	  		folder_id = fork();
+	   		if (folder_id<0){
+	      		exit(EXIT_FAILURE);
+	    	}
+	    	if (folder_id == 0){
+	       		char *argvC[] = {"mkdir", "-p", makefolder, NULL};
+               	execv("/bin/mkdir", argvC);
+	    	}
+			while((wait(&status3))>0);
+    	}
+    }
+    closedir(d);
+}
+```
+
+Melanjutkan bagian 2a, setelah melakukan ekstrak kita diminta untuk **membuat folder-folder** sesuai dengan jenis hewan yang ada difile foto, dimana file-file folder ini akan ditempatkan didalam folder petshop tadi. Jadi disini pada awalnya mengakses folder petshop yang berisi file-file yang telah diekstrak tadi, dengan perintah dibawah ini.
+
+```c
+DIR *d;
+struct dirent *dir;
+d = opendir("/home/hanifa/modul2/petshop");
+```
+Disini kita akan **membuka directory petshop** untuk dapat **mengakses file yang ada didalamnya**. Menggunakan looping `while ((dir = readdir(d)) != NULL)` untuk bisa mengecek seluruh file yang ada. Lalu diikuti dengan `if ((strcmp(dir->d_name, "..")!=0) && (strcmp(dir->d_name, ".")!=0))` yang merupakan percabangan, dimana menyatakan kondisi dimana yang diproses hanyalah file yang bernama (mengecualikan `.` dan `..`). 
+```c
+char filename[100] = "";
+strcpy(filename, dir->d_name);
+char *name = strtok(filename, delim1);
+char makefolder[100] = "/home/hanifa/modul2/petshop/";
+strcat(makefolder, name);
+pid_t folder_id;
+folder_id = fork();
+if (folder_id<0){
+    exit(EXIT_FAILURE);
+}
+if (folder_id == 0){
+    char *argvC[] = {"mkdir", "-p", makefolder, NULL};
+    execv("/bin/mkdir", argvC);
+}
+while((wait(&status3))>0);
+```
+Lalu didalam percabangan ini pertama-tama kita menyimpan nama dari file ke variabel **filename** yang bertipe _char_ dengan menggunakan fungsi `strcpy()`. Setelah itu melakukan split pada **filename** dengan menggunakan fungsi `strtok()` dimana potongan dari filename yang didapatkan ialah jenis dari hewan yang ada di file foto tersebut, dimana jenisnya ini disimpan di variabel **name** yang bertipe `char`. Lalu jenis dari hewan ini akan digabung dengan bantuan fungsi `strcat()` dengan path dimana folder _petshop_ berada yaitu `/home/hanifa/modul2/petshop/`. Dimana path ke folder jenis hewan ini disimpan pada variabel **makefolder** yang bertipe `char`. Setelah itu barulah dipanggil command `mkdir` untuk membuat folder.
+Pada akhir fungsi folder2b() ini, dimana ketika semua file yang ada telah diakses, terdapat fungsi `closedir()` yang berguna untuk menutup akses kepada directory petshop yang telah kita proses tadi.
+
+Ketika kodingan pada fungsi `folder2a()` dan `folder2b` ini dipanggil sekaligus dibagian **main**, dapat menghasilkan seperti gambar berikut ini.
+
+![soal2ab](Screenshots/soal2b.jpg)
 
 ### 2C ###
 Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
@@ -26,13 +134,6 @@ Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus 
 
 ### 2E ###
 Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut. Format harus sesuai contohnya.
-________________
-nama : joni
-enter umur  : 3 tahun
-
-nama : miko
-\numur  : 2 tahun
-________________
 
 ## Soal 3
 
