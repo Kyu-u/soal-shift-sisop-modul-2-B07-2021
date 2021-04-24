@@ -52,7 +52,7 @@ Pada soal ini Steven ingin mendownload file nya dari link yang sudah disediakan.
 
 ```
 Untuk mendownload file, kami membuatnya di parentnya, karena menunggu proses child terlebih dahulu selesai yaitu membuat folder, lalu mendownload file dari linknya.
-Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan fork pertama untuk proses mendownload. Pada **fork** pertama, kami membuat proses download untuk Film, yang disimpan dalam bentuk **Film_for_Stevany.zip**. Pada `char *download[]` merupakan inisialisasi untuk mendownload. Perintah `wget` merupakan perintah untuk mendownload file dari linknya. Lalu, didalam fork() yang sama, pada parentsnya kami membuat proses baru lagi untuk mendownload Musik, yang disimpan dalam bentuk **Musik_for_Stevany**.
+Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan fork pertama untuk proses mendownload. Pada **fork** pertama, kami membuat proses download untuk Film, yang disimpan dalam bentuk **Film_for_Stevany.zip**. Pada `char *download[]` merupakan inisialisasi untuk mendownload. Perintah `wget` merupakan perintah untuk mendownload file dari linknya. Lalu, didalam fork() yang sama, pada parentsnya kami membuat proses baru lagi untuk mendownload Musik, yang disimpan dengan nama **Musik_for_Stevany**.
 
 Perintah `while ((wait(&status))>0`, berarti menunggu proses childnya dulu selesai lalu dilanjutkan dengan proses parent yang dibawahnya. Lalu, pada parent terakhir, kami membuat proses download untuk file foto yang disimpan dengan nama **Foto_for_Stevany**. Dan pada setiap perintah dijalankan, perintah `execv` akan menjalankan perintah tersebut.
 
@@ -157,10 +157,10 @@ Dapat dilihat pada kondisi ` if(now >= 1617960120  && batas == 1)`, itu merupaka
 dan **1617960120** merupakan konversi mennggunakan *epoch time*. Jika pada soal waktu yang ditentukan adalah 9 April 2021 22:22 WIB, maka 6 jam sebelumnya merupakan 9 April 2021 16:22, itu merupakan konversi dari angka tersebut.
 
 Untuk menjalankannya secara otomatis, dapat dilakukan sebagai berikut
-![soal1c](Screenshots/1ca1.png)
+![soal1c](Screenshots/1ca1.PNG)
 
 Untuk hasil yang sudah dijalankan, maka yang akan muncul adalah sebagai berikut
-![soal1c](Screenshots/1c.png)
+![soal1c](Screenshots/1c.PNG)
 Dapat terlihat bahwa, folder **Fylm**, **Musyik**, dan **Pyoto** sudah terbentuk, serta file zip **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** yang didownload juga sudah terdownload.	
 
 ## Soal 2.
