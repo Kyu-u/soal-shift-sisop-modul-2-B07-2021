@@ -21,7 +21,7 @@ Membuat folder yang bernama Fylm, Musyik, dan Pyoto.
                 execv("/bin/mkdir", argv); 
 ```
 Pada soal, untuk membuat folder maka disini kami menggunakan `fork()` untuk membuat suatu proses yang baru, lalu
-pada `char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};` insialisasi untuk membuat foldernya.
+pada `char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};` insialisasi untuk membuat foldernya. Perintah `mkdir` untuk membuat foldernya.
 Lalu fungsi `execv` untuk menjalankan perintahnya.
 
 ### 1B ###
@@ -56,7 +56,28 @@ Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan 
 
 Perintah `while ((wait(&status))>0`, berarti menunggu proses childnya dulu selesai lalu dilanjutkan dengan proses parent yang dibawahnya. Lalu, pada parent terakhir, kami membuat proses download untuk file foto yang disimpan dengan nama **Foto_for_Stevany**. Dan pada setiap perintah dijalankan, perintah `execv` akan menjalankan perintah tersebut.
 
-## Soal 2
+### 1C dan 1D ###
+Mengekstrak isi folder yang berisikan zip lalu memnindahkan ke dalam foder **Fylm,Musyik,Pyoto** yang sudah dibuat.
+```c
+else{
+                    while ((wait(&status)) > 0);
+                    char* unzip[][10]= {{"unzip","-j","Film_for_Stevany.zip","-d","./Fylm",NULL},{"unzip","-j","Musik_for_Stevany.zip","-d","./Musyik",NULL},{"unzip","-j","Foto_for_Stevany.zip","*.jpg","-d","./Pyoto",NULL}};
+                    int i = -1;
+                    while (i<3)
+                    {
+                        i++;
+                        child_id4 = fork();
+                        if (child_id4 == 0) continue; 
+                        execv("/bin/unzip",unzip[i]);
+                            
+                
+                    }
+```
+Proses ini terjadi di dalam parent, karena menunggu semua file yang tadi selesai di download lalu proses ini akan terjadi.
+```char* unzip[][10]= {{"unzip","-j","Film_for_Stevany.zip","-d","./Fylm",NULL},{"unzip","-j","Musik_for_Stevany.zip","-d","./Musyik",NULL},{"unzip","-j","Foto_for_Stevany.zip","*.jpg","-d","./Pyoto",NULL}};``` ini merupakan proses untuk mengekstrak zip nya lalu membuatnya ke dalam folder yang sudah ada.
+Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah `-j` agar tidak membuat folder baru, sedangkan `-d` berfungsi untuk memindahkan file yang berada di dalam **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** ke dalam folder **Fylm**,**Musyik**, dan **Pyoto**.
+
+## Soal 2.
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
 
 ### 2A ###
