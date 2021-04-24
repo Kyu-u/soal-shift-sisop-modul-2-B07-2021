@@ -87,7 +87,7 @@ Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah
                         execv("/bin/unzip",unzip[i]);
                     }
 ```
-## 1E ##
+### 1E ###
 Membuat semua proses tersebut agar berjalan otomatis, 6 jam sebelum waktu ulangtahunnya. Disini, untuk membuat program berjalan di latarbelakang, kami menggunakan daemon proses . Berikut ini adalah codingannya.
 ```c 
 #include <sys/types.h>
@@ -164,7 +164,7 @@ Untuk hasil yang sudah dijalankan, maka yang akan muncul adalah sebagai berikut
 
 Dapat terlihat bahwa, folder **Fylm**, **Musyik**, dan **Pyoto** sudah terbentuk, serta file zip **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** yang didownload juga sudah terdownload.	
 
-## 1F ##
+### 1F ###
 Pada 9 April 2021 pukul 22:22 WIB, semua folder akan di zip dengan nama **Lopyu_Stevany.zip** dan semua folder akan di delete(sehingga hanya menyisakan .zip).
 Berikut ini adalah implementasi kodingannya.
 ```c
@@ -186,6 +186,7 @@ Pada child proses kami melakukan zip untuk membuat files **Lopyu_Stefany.zip** d
 
 Untuk menjalankan program tersebut, maka dapat dilakukan sebagai berikut
 ![soal1f](Screenshots/1d1.PNG)
+
 Untuk mensetting tanggalnya pada ubuntu, agar dapat berjalan sesuai waktu ulang tahun Stevany.
 
 Adapun hasilnya adalah sebagai berikut
@@ -195,7 +196,7 @@ Adapun hasilnya adalah sebagai berikut
 
 Dapat dilihat bahwa tepat pada ulangtahunnya 9 April 2021 pukul 22:22 WIB, maka akan terbentuk seperti gambar diatas. Semua folder akan dihapus dan hanya menyisakan **Lopyu_Stefany.zip** , **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany**.
 
-## Kendala ##
+### Kendala ###
 Terdapat kendala pada saat program tidak diberi kondisi ` while ((wait(&status)) > 0)` ketika dijalankan, seluruh folder  yang berbentuk zip tidak semuanya terdownload. Lalu pada saat membuat child process dan parent process agak lumayan membingungkan. Dan pada saat mensetting tanggal yang diminta, kami agak kebingungan karena ketika sudah mensetting tanggal yang diminta tidak bisa dan kembali ke tanggal di laptop.
 
 ## Soal 2.
