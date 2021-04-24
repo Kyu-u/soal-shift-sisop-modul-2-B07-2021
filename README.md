@@ -118,22 +118,193 @@ if (folder_id == 0){
 }
 while((wait(&status3))>0);
 ```
-Lalu didalam percabangan ini pertama-tama kita menyimpan nama dari file ke variabel **filename** yang bertipe _char_ dengan menggunakan fungsi `strcpy()`. Setelah itu melakukan split pada **filename** dengan menggunakan fungsi `strtok()` dimana potongan dari filename yang didapatkan ialah jenis dari hewan yang ada di file foto tersebut, dimana jenisnya ini disimpan di variabel **name** yang bertipe `char`. Lalu jenis dari hewan ini akan digabung dengan bantuan fungsi `strcat()` dengan path dimana folder _petshop_ berada yaitu `/home/hanifa/modul2/petshop/`. Dimana path ke folder jenis hewan ini disimpan pada variabel **makefolder** yang bertipe `char`. Setelah itu barulah dipanggil command `mkdir` untuk membuat folder.
+Lalu didalam percabangan ini pertama-tama kita menyimpan nama dari file yang bisa didapatkan melalui perintah `(dir->d_name)` ke variabel **filename** yang bertipe _char_ dengan menggunakan fungsi `strcpy()`. Setelah itu melakukan split pada **filename** dengan menggunakan fungsi `strtok()` dimana potongan dari filename yang didapatkan ialah jenis dari hewan yang ada di file foto tersebut, dimana jenisnya ini disimpan di variabel **name** yang bertipe `char`. Lalu jenis dari hewan ini akan digabung dengan bantuan fungsi `strcat()` dengan path dimana folder _petshop_ berada yaitu `/home/hanifa/modul2/petshop/`. Dimana path ke folder jenis hewan ini disimpan pada variabel **makefolder** yang bertipe `char`. Setelah itu barulah dipanggil command `mkdir` untuk membuat folder.
 Pada akhir fungsi folder2b() ini, dimana ketika semua file yang ada telah diakses, terdapat fungsi `closedir()` yang berguna untuk menutup akses kepada directory petshop yang telah kita proses tadi.
 
 Ketika kodingan pada fungsi `folder2a()` dan `folder2b` ini dipanggil sekaligus dibagian **main**, dapat menghasilkan seperti gambar berikut ini.
 
-![soal2ab](Screenshots/soal2b.jpg)
+![soal2b](Screenshots/soal2b.jpg)
 
-### 2C ###
+### 2 C, D, E ###
+#### 2C ####
 Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
 Contoh: “/petshop/cat/joni.jpg”.
 
-### 2D ###
+#### 2D ####
 Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus di pindah ke masing-masing kategori yang sesuai. Contoh: foto dengan nama “dog;baro;1_cat;joni;2.jpg” dipindah ke folder “/petshop/cat/joni.jpg” dan “/petshop/dog/baro.jpg”.
 
-### 2E ###
+#### 2E ####
 Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut. Format harus sesuai contohnya.
+
+```c
+void move2c(){
+	int status5;
+	DIR *d;
+    struct dirent *dir;
+    d = opendir("/home/hanifa/modul2/petshop");
+    char *delim1 = ";";
+	char *delim2 = "_";
+	while ((dir = readdir(d)) != NULL) {
+		if ((dir->d_type != DT_DIR) && (strcmp(dir->d_name, "..")!=0) && (strcmp(dir->d_name, ".")!=0)){
+			char filename[300] = "";
+    		strcpy(filename, dir->d_name);
+	  		char asal[300] = "/home/hanifa/modul2/petshop/";	  
+   	  		strcat(asal, filename);
+   	  			
+   	  		filename[strlen(filename)-4]='\0'; //hapus .jpg
+   	  			
+   	  		char *animal1 = strtok(filename, delim2);
+   	  		char *animal2 = strtok(NULL, delim2);
+   	  		
+			if (animal2 != NULL ){ //kalau ada hewan ke-2
+				detail(asal, animal2);
+			}
+			
+			detail(asal, animal1);
+			
+			
+			pid_t delete_id;
+			delete_id = fork();
+			if (delete_id<0){
+				exit(EXIT_FAILURE);
+			}
+			if (delete_id == 0){
+				char *argvE[] = {"rm", asal, NULL};
+				execv("/bin/rm", argvE);
+			}
+			while((wait(&status5))>0);
+       	}
+    }
+    closedir(d);
+}
+```
+Pada nomor 2c dan d, diminta untuk **memindahkan file** ke directory jenis yang telah dibuat sebelumnya. Dimana selain memindahkan, juga disuruh untuk **mengubah nama dari file**, menjadi `namahewannya.jpg`. Dimana untuk file yang memiliki 2 hewan di foto & namanya, yang dipisahkan oleh tanda `_`, file foto nya harus dipindahkan ke masing-masing folder jenis hewannya dengan mengubah namanya juga.
+
+```c
+int status5;
+DIR *d;
+struct dirent *dir;
+d = opendir("/home/hanifa/modul2/petshop");
+char *delim1 = ";";
+char *delim2 = "_";
+while ((dir = readdir(d)) != NULL) {
+	if ((dir->d_type != DT_DIR) && (strcmp(dir->d_name, "..")!=0) && (strcmp(dir->d_name, ".")!=0)){
+```
+Sama seperti nomor 2b, pada fungsi `move3c()` ini hal awal yang dilakukan ialah membuka dan mengakses directory petshop yang merupakan tempat file-file dan juga directory jenis hewan berada. Disini menggunakan percabangan `if` lagi, yang ditambahkan dengan kondisi `dir->d_type != DT_DIR` dimana yang kita proses dalam pemindahan hanyalah file yang ada saja (mengecualikan folder yang ada). 
+
+```c
+char filename[300] = "";
+strcpy(filename, dir->d_name);
+char asal[300] = "/home/hanifa/modul2/petshop/";	  
+strcat(asal, filename);			
+filename[strlen(filename)-4]='\0'; //hapus .jpg
+```
+Sama seperti sebelumnya, yaitu menyimpan nama dari file ke variabel `filename` yang bertipe _char_. Setelah itu, membuat variabel **asal** yang dimana disini nantinya akan disimpan path ke file yang sekarang. Lalu, pada **filename** yang berisikan nama dari file, awalnya namanya memiliki struktur `jenis;nama;umur.jpg` ataupun `jenis1;nama1;umur1_jenis2;nama2;umur2.jpg` untuk memudahkan dalam melakukan pemisahan untuk mendapatkan jenishewan, namahewan, dan juga umurnya. Maka tulisan `.jpg` dihapus dengan menggunakan perintah `filename[strlen(filename)-4]='\0';`
+
+```c
+char *animal1 = strtok(filename, delim2);
+char *animal2 = strtok(NULL, delim2);
+if (animal2 != NULL ){ //kalau ada hewan ke-2
+	detail(asal, animal2);
+}
+detail(asal, animal1);
+```
+Setelah menghapus tulisan `.jpg`nya, maka kita bisa mulai melakukan pemisahan pada filename nya untuk mendapatkan potongan kata yang diinginkan. Pada pemisahan ini, hal pertama yang dilakukan ialah melakukan pemisahan antara hewan 1 (disebelah kiri) dengan hewan 2 (disebelah kanan), pemisahan ini dilakukan dengan bantuan fungsi `strtok()`, hasil dari fungsi `strtok(filename, delim2)` dengan delim2nya `_` ialah `jenis;nama;umur` hewan 1, dan untuk fungsi `strtok(NULL, delim2)` akan mengambil `jenis;nama;umur` hewan 2.Setelah itu, memberi kondisi percabangan, dimana apabila terdapat hewan 2, maka akan menjalankan fungsi `detail()` yang memiliki parameter path **asal** dan **animal2** yang berisikan `jenis;nama;umur` hewan 2. Setelah selesai, maka akan lanjut dengan menjalankan fungsi `detail()` selanjutnya yang memiliki parameter path **asal** dan **animal1**. 
+
+```c
+void detail(char *asalnya, char *hewan){
+	int status4;
+	char *delim1 = ";";
+	char *jenis = strtok(hewan, delim1);
+	char *nama = strtok(NULL, delim1);
+	char *umur = strtok(NULL, delim1);
+		
+	char ket_path[300];
+	sprintf(ket_path, "/home/hanifa/modul2/petshop/%s/keterangan.txt", jenis);
+	
+	char newname[300];
+	sprintf(newname, "/home/hanifa/modul2/petshop/%s/%s.jpg", jenis, nama);
+	
+	char isinya[300];
+	sprintf(isinya, "nama : %s \numur : %s\n\n", nama, umur);
+	
+	;
+	pid_t move_id;
+	move_id = fork();
+	if (move_id<0){
+		exit(EXIT_FAILURE);
+	}
+	if (move_id == 0){
+		char *argvD[] = {"cp", asalnya, newname, NULL};
+		execv("/bin/cp", argvD);
+	}
+	while((wait(&status4))>0);
+
+	FILE *keterangan;
+	keterangan = fopen(ket_path, "a"); //agar bisa membuka dan menulis txt
+	if(keterangan){
+		fprintf(keterangan, "%s", isinya);
+		fclose(keterangan);
+	}
+}
+```
+Pada fungsi `detail()` pertama-tama dilakukan pemisahan `jenis;nama;umur` pada variabel **hewan** yang ada lalu disimpan ke masing-masing variabel **nama**, **jenis**, dan **umur**. Dimana pemisahan ini dibantu dengan fungsi `strtok()` dengan parameter **hewan** (jenis;nama;umur) dan delimiternya yaitu `;` (delim1). 
+
+Selain melakukan pemindahan dan rename, pada fungsi `detail()` juga dilakukan penulisan seluruh nama dan umur hewan di folder jenis hewan yang sama ke file `keterangan.txt` sesuai dengan perintah nomor 2e.
+
+```c
+int status4;
+char *delim1 = ";";
+char *jenis = strtok(hewan, delim1);
+char *nama = strtok(NULL, delim1);
+char *umur = strtok(NULL, delim1);
+		
+char newname[300];
+sprintf(newname, "/home/hanifa/modul2/petshop/%s/%s.jpg", jenis, nama);
+```
+Agar dapat melakukan pengubahan nama file sekaligus perpindahan ke folder jenis yang dituju, maka dibuatlah variabel bertipe char yang bernama `newname` yang berisikan path kefolder yang dituju, dimana pada path ini ditambahkan `nama` dari hewan yang diakhiri dengan `.jpg`.
+
+```c
+char ket_path[300];
+sprintf(ket_path, "/home/hanifa/modul2/petshop/%s/keterangan.txt", jenis);
+
+char isinya[300];
+sprintf(isinya, "nama : %s \numur : %s\n\n", nama, umur);
+```
+Dalam membantu penulisan nama dan umur hewan ke file `keterangan.txt` maka dibuatlah variabel **ket_path** yang berisikan path ke file keterangan.txt yang berada dimasing-masing folder jenis hewan. Selain itu, dibuat variabel **isinya** yang berisi string berupa nama dan umur dari hewan yang ada di file foto, untuk memudahkan kita dalam penulisan kedalam file `keterangan.txt`.
+
+```c
+char *argvD[] = {"cp", asalnya, newname, NULL};
+execv("/bin/cp", argvD);
+```
+Setelah mendapatkan variabel **newname** tadi, maka bisa dilakukan pemindahan file dimana disini file hanya akan disalin, agar memudahkan pemindahan ketika pada file terdapat 2 hewan. Dalam melakukan penyalinan file ini, digunakan perintah `cp` yang diikuti dengan path asal dari file dan path baru yang sekaligus merupakan nama baru dari file. 
+
+Hasil dari perpindahan bisa dilihat pada gambar berikut ini.
+
+![soal2cd](Screenshots/soal2cd1)
+![soal2cd](Screenshots/soal2cd2)
+
+```c
+FILE *keterangan;
+keterangan = fopen(ket_path, "a"); //agar bisa membuka dan menulis txt
+if(keterangan){
+	fprintf(keterangan, "%s", isinya);
+	fclose(keterangan);
+}
+```
+Setelah melakukan perpindahan pada file, maka bisa dilakukan penulisan nama dan umur hewan pada file `keterangan.txt` yang ada di masing-masing folder. Awalnya, file yang telah dibuat dengan bantuan variabel **ket_path** tadi dibuka dengan diikuti perintah `a` yang artinya file bisa dibuka dan ditulis txt. Lalu, didalam file ini ditulislah nama dan umur dari hewan yang tadinya berada pada variabel **isinya** dengan bantuan perintah `fprintf()`. Setelah menulis, maka file bisa ditutup dengan bantuan perintah `fclose()`.
+
+```c
+char *argvE[] = {"rm", asal, NULL};
+execv("/bin/rm", argvE);
+}
+```
+Kembali ke fungsi `move2c` dimana setelah semua file sudah sirename dan dipindahkan ke folder yang sesuai dan juga telah dilakukan penulisan pada `keterangan.txt` nya masing-masing, maka dapat dilakukan penghapusan pada file yang ada ditempat awal, dimana hal ini dibantu dengan perintah `rm` yang diikuti letak file asal.
+
+Jika semua fungsinya dijalankan maka akan dapat file keterangan.txt yang sudah berisi. Berikut ini contohnya.
+
+![soal2e](Screenshots/soal2e)
+
 
 ## Soal 3
 
