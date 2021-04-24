@@ -57,7 +57,7 @@ Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan 
 Perintah `while ((wait(&status))>0`, berarti menunggu proses childnya dulu selesai lalu dilanjutkan dengan proses parent yang dibawahnya. Lalu, pada parent terakhir, kami membuat proses download untuk file foto yang disimpan dengan nama **Foto_for_Stevany**. Dan pada setiap perintah dijalankan, perintah `execv` akan menjalankan perintah tersebut.
 
 ### 1C dan 1D ###
-Mengekstrak isi folder yang berisikan zip lalu memnindahkan ke dalam foder **Fylm,Musyik,Pyoto** yang sudah dibuat.
+Mengekstrak isi folder yang berisikan zip lalu memnindahkan ke dalam folder **Fylm,Musyik,Pyoto** yang sudah dibuat.
 ```c
 else{
                     while ((wait(&status)) > 0);
@@ -75,6 +75,7 @@ else{
 ```
 Proses ini terjadi di dalam parent, karena menunggu semua file yang tadi selesai di download lalu proses ini akan terjadi.
 ```char* unzip[][10]= {{"unzip","-j","Film_for_Stevany.zip","-d","./Fylm",NULL},{"unzip","-j","Musik_for_Stevany.zip","-d","./Musyik",NULL},{"unzip","-j","Foto_for_Stevany.zip","*.jpg","-d","./Pyoto",NULL}};``` ini merupakan proses untuk mengekstrak zip nya lalu membuatnya ke dalam folder yang sudah ada.
+
 Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah `-j` agar tidak membuat folder baru, sedangkan `-d` berfungsi untuk memindahkan file yang berada di dalam **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** ke dalam folder **Fylm**,**Musyik**, dan **Pyoto**.
 
 ## Soal 2.
