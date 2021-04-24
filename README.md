@@ -182,7 +182,7 @@ else if(now >= 1617981718){
             }
 ```
 Sama seperti soal sebelumnya, dapat dilihat pada kondisi `else if(now >= 1617981718)` kami juga menggunakan *epoch time* untuk mengkonversi tanggalnya, adapun konversi dari tanggal tersebut adalah 9 April 2021 pukul 22:22 WIB. Maka kondisi tersebut menyatakan bahwa tepat pada ulangtahunnya maka akan dijalankan perinta untuk menzip semua folder dengan nama **Lopyu_Stevany.zip** dan semua folder akan di delete dan hanya menyisakan file yang berformat `.zip`.
-Pada child proses kami melakukan zip untuk membuat files **Lopyu_Stefany.zip*** dengan perintah `zip`. tag `-r` digunakan untuk melakukan zip pada sebuah directory/folder. Pada parent proses kami menggunakan perintah `rm` untuk menghapus folder-folder yang sudah dibuat sebelumnya.
+Pada child proses kami melakukan zip untuk membuat files **Lopyu_Stefany.zip** dengan perintah `zip`. tag `-r` digunakan untuk melakukan zip pada sebuah directory/folder. Pada parent proses kami menggunakan perintah `rm` untuk menghapus folder-folder yang sudah dibuat sebelumnya.
 
 Untuk menjalankan program tersebut, maka dapat dilakukan sebagai berikut
 ![soal1f](Screenshots/1d1.PNG)
@@ -192,7 +192,8 @@ Adapun hasilnya adalah sebagai berikut
 ![soal1f](Screenshots/1d2.PNG)
 ![soal1f](Screenshots/1d3.PNG)
 
-Dapat dilihat bahwa tepat pada ulangtahunnya 9 April 2021 pukul 22:22 WIB, maka akan terbentuk seperti gambar diatas. Semua folder akan dihapus dan hanya menyisakan **Lopyu_Stefany.zip*** , **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany**.
+
+Dapat dilihat bahwa tepat pada ulangtahunnya 9 April 2021 pukul 22:22 WIB, maka akan terbentuk seperti gambar diatas. Semua folder akan dihapus dan hanya menyisakan **Lopyu_Stefany.zip** , **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany**.
 
 ## Kendala ##
 Terdapat kendala pada saat program tidak diberi kondisi ` while ((wait(&status)) > 0)` ketika dijalankan, seluruh folder  yang berbentuk zip tidak semuanya terdownload. Lalu pada saat membuat child process dan parent process agak lumayan membingungkan. Dan pada saat mensetting tanggal yang diminta, kami agak kebingungan karena ketika sudah mensetting tanggal yang diminta tidak bisa dan kembali ke tanggal di laptop.
