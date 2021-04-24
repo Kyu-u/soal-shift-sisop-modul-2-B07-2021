@@ -12,7 +12,7 @@ Di lain hal Steven anak yang tidak amat sangat super membenci matkul sisop, bebe
 Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi.
 
 ### 1A ###
-Membuat folder yang bernama Fylm, Musyik, dan Pyoto
+Membuat folder yang bernama Fylm, Musyik, dan Pyoto.
 ```c
  child_id = fork();
             if (child_id == 0){
@@ -24,6 +24,37 @@ Pada soal, untuk membuat folder maka disini kami menggunakan `fork()` untuk memb
 pada `char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};` insialisasi untuk membuat foldernya.
 Lalu fungsi `execv` untuk menjalankan perintahnya.
 
+### 1B ###
+Pada soal ini Steven ingin mendownload file nya dari link yang sudah disediakan.
+```c
+//mendownload dari link
+            }else{
+                child_id1 = fork();
+                if (child_id1 == 0) {
+                    child_id2 = fork();
+                    if (child_id2 == 0){
+                        char *download[]=  { "wget", "-q","--no-check-certificate","https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O","Film_for_Stevany.zip",NULL};
+                        execv("/bin/wget", download);
+                    }
+                    else {
+                        while ((wait(&status)) > 0);
+                        sleep (10);
+                        child_id3 = fork();          
+                        if (child_id3 == 0){
+                            char *download1[] = { "wget", "-q","--no-check-certificate","https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O","Musik_for_Stevany.zip",NULL};
+                            execv("/bin/wget", download1);  
+                        }
+                        else {
+                            while ((wait(&status)) > 0);
+                            char *download2[]=  { "wget", "-q","--no-check-certificate","https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O","Foto_for_Stevany.zip",NULL};
+                            execv("/bin/wget", download2);
+                        }
+
+```
+Untuk mendownload file, kami membuatnya di parentnya, karena menunggu proses child terlebih dahulu selesai yaitu membuat folder, lalu mendownload file dari linknya.
+Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan fork pertama untuk proses mendownload. Pada **fork** pertama, kami membuat proses download untuk Film, yang disimpan dalam bentuk **Film_for_Stevany.zip**. Pada `char *download[]` merupakan inisialisasi untuk mendownload. Perintah `wget` merupakan perintah untuk mendownload file dari linknya. Lalu, didalam fork() yang sama, pada parentsnya kami membuat proses baru lagi untuk mendownload Musik, yang disimpan dalam bentuk **Musik_for_Stevany**.
+
+Perintah `while ((wait(&status))>0`, berarti menunggu proses childnya dulu selesai lalu dilanjutkan dengan proses parent yang dibawahnya. Lalu, pada parent terakhir, kami membuat proses download untuk file foto yang disimpan dengan nama **Foto_for_Stevany**. Dan pada setiap perintah dijalankan, perintah `execv` akan menjalankan perintah tersebut.
 
 ## Soal 2
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
