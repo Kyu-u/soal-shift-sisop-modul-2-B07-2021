@@ -20,9 +20,9 @@ Membuat folder yang bernama Fylm, Musyik, dan Pyoto
                 char *argv[] = {"mkdir","Fylm","Musyik","Pyoto",NULL};
                 execv("/bin/mkdir", argv); 
 ```
-Pada soal, untuk membuat folder maka disini kami menggunakan **fork()** untuk membuat suatu proses yang baru, lalu
-pada **char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};** insialisasi untuk membuat foldernya.
-Lalu fungsi **execv** untuk menjalankan perintahnya.
+Pada soal, untuk membuat folder maka disini kami menggunakan `fork()` untuk membuat suatu proses yang baru, lalu
+pada `char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};` insialisasi untuk membuat foldernya.
+Lalu fungsi `execv` untuk menjalankan perintahnya.
 
 
 ## Soal 2
