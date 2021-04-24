@@ -5,6 +5,25 @@
 * Hanifa Fauziah 05111940000024
 
 ## Soal 1
+Pada suatu masa, hiduplah seorang Steven yang hidupnya pas-pasan. Steven punya pacar, namun sudah putus sebelum pacaran. Ketika dia galau memikirkan mantan, ia selalu menonton https://www.youtube.com/watch?v=568DH_9CMKI untuk menghilangkan kesedihannya. 
+
+Di lain hal Steven anak yang tidak amat sangat super membenci matkul sisop, beberapa jam setelah diputus oleh pacarnya dia menemukan wanita lain bernama Stevany, namun Stevany berkebalikan dengan Steven karena menyukai sisop. Steven ingin terlihat jago matkul sisop demi menarik perhatian Stevany.
+
+Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi.
+
+### 1A ###
+Membuat folder yang bernama Fylm, Musyik, dan Pyoto
+```c
+ child_id = fork();
+            if (child_id == 0){
+                //membuat direktori baru
+                char *argv[] = {"mkdir","Fylm","Musyik","Pyoto",NULL};
+                execv("/bin/mkdir", argv); 
+```
+Pada soal, untuk membuat folder maka disini kami menggunakan **fork()** untuk membuat suatu proses yang baru, lalu
+pada **char argv[]= {"mkdir","Fylm","Musyik","Pyoto",NULL};** insialisasi untuk membuat foldernya.
+Lalu fungsi **execv** untuk menjalankan perintahnya.
+
 
 ## Soal 2
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
