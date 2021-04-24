@@ -157,7 +157,7 @@ Dapat dilihat pada kondisi ` if(now >= 1617960120  && batas == 1)`, itu merupaka
 dan **1617960120** merupakan konversi mennggunakan *epoch time*. Jika pada soal waktu yang ditentukan adalah 9 April 2021 22:22 WIB, maka 6 jam sebelumnya merupakan 9 April 2021 16:22, itu merupakan konversi dari angka tersebut.
 
 Untuk menjalankannya secara otomatis, dapat dilakukan sebagai berikut
-![soal1ca1](Screenshots/1ca1.png)
+![soal1c](Screenshots/1ca1.png)
 
 Untuk hasil yang sudah dijalankan, maka yang akan muncul adalah sebagai berikut
 ![soal1c](Screenshots/1c.png)
