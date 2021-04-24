@@ -616,5 +616,7 @@ dimana program bash tersebut jika di run akan membunuh proses `getpid() + 1`, ya
 
 Untuk argumen yang selain dari kedua argumen diatas, kami menambahkan output bahwa argumen salah dan lansgung exit program.
 
+### Kendala ###
 
+Kendala yang dialami saat membuat nomor ini adalah pada concurrency processnya. Awalnya kami menginisialiasi ```c int status``` sebagai status yang akan digunakan sebagai parameter dari fungsi ```c wait()```, namun saat program dijalankan, outputnya tidak sesuai dan malah mengeluarkan direktori baru dengan selisih waktu 10 detik, dimana seharusnya selisih pembuatan direktori baru 40 detik. Oleh karena itu, kami menggunakan ```c sleep(1)``` untuk melakukan sleep selama 1 detik dan untuk selanjutnya waktu saat mendownload direktori kami kurangi 1 detik juga agar sesuai dengan direktorinya. Di akhir kami juga gunakan ```c sleep(39)``` karena direktori terbuat setiap 40 detik dan program telah sleep selama 1 detik sebelumnya.
 
