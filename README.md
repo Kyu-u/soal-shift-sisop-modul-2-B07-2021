@@ -87,7 +87,81 @@ Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah
                         execv("/bin/unzip",unzip[i]);
                     }
 ```
+## 1E ##
+Membuat semua proses tersebut agar berjalan otomatis, 6 jam sebelum waktu ulangtahunnya. Disini, untuk membuat program berjalan di latarbelakang, kami menggunakan daemon proses . Berikut ini adalah codingannya.
+```c 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <string.h>
+#include <wait.h>
+#include <time.h>
 
+int main() {
+    pid_t pid, sid;        // Variabel untuk menyimpan PID
+    pid_t child_pid,child_pid2;
+    pid_t child_id;
+    pid_t child_id1;
+    pid_t child_id2;
+    pid_t child_id3;
+    pid_t child_id4;
+    
+    
+    int status=0;
+    pid = fork();     // Menyimpan PID dari Child Process
+
+    /* Keluar saat fork gagal
+    * (nilai variabel pid < 0) */
+    //kode template untuk proses daemon
+    if (pid < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    /* Keluar saat fork berhasil
+    * (nilai variabel pid adalah PID dari child process) */
+    if (pid > 0) {
+        exit(EXIT_SUCCESS);
+    }
+
+    umask(0);
+
+    sid = setsid();
+    if (sid < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    if ((chdir("/home/zelda/sisopku")) < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+    time_t now = time(NULL);
+    time_t times = time(NULL);
+    int batas = 1;
+    while(1){
+        
+        now = time(NULL);
+        //melakukan timecheck apakah sudah kurang dari 6 jam
+        if(now >= 1617960120  && batas == 1){
+            batas++;
+```
+Dapat dilihat setelah `while(1)` kami membuat kode yang sudah kami buat. Pada soal E ini, meminta untuk menjalankan proses 6 jam sebelum waktu yang ditentukan. Oleh karena itu untuk dapat membuat kondisi tersebut kami menggunakan *epoch time* untuk dapat mengkonversi tanggalnya. 
+Dapat dilihat pada kondisi ` if(now >= 1617960120  && batas == 1)`, itu merupakan kondisi untuk menjalankan proses 6 jam sebelum waktu yang ditentukan.
+dan **1617960120** merupakan konversi mennggunakan *epoch time*. Jika pada soal waktu yang ditentukan adalah 9 April 2021 22:22 WIB, maka 6 jam sebelumnya merupakan 9 April 2021 16:22, itu merupakan konversi dari angka tersebut.
+
+Untuk menjalankannya secara otomatis, dapat dilakukan sebagai berikut
+![soal1ca1](Screenshots/1ca1.png)
+
+Untuk hasil yang sudah dijalankan, maka yang akan muncul adalah sebagai berikut
+![soal1c](Screenshots/1c.png)
+Dapat terlihat bahwa, folder **Fylm**, **Musyik**, dan **Pyoto** sudah terbentuk, serta file zip **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** yang didownload juga sudah terdownload.	
 
 ## Soal 2.
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
