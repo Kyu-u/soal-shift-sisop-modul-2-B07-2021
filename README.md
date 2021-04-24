@@ -161,7 +161,41 @@ Untuk menjalankannya secara otomatis, dapat dilakukan sebagai berikut
 
 Untuk hasil yang sudah dijalankan, maka yang akan muncul adalah sebagai berikut
 ![soal1c](Screenshots/1c.PNG)
+
 Dapat terlihat bahwa, folder **Fylm**, **Musyik**, dan **Pyoto** sudah terbentuk, serta file zip **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** yang didownload juga sudah terdownload.	
+
+## 1F ##
+Pada 9 April 2021 pukul 22:22 WIB, semua folder akan di zip dengan nama **Lopyu_Stevany.zip** dan semua folder akan di delete(sehingga hanya menyisakan .zip).
+Berikut ini adalah implementasi kodingannya.
+```c
+else if(now >= 1617981718){
+            //kode setelah jam d-day
+            child_pid2 = fork();
+            if(child_pid2 == 0){
+                char *zipAkhir[]= {"zip","-r","Lopyu_Stevany.zip","Fylm","Musyik","Pyoto",NULL};
+                execv("/bin/zip", zipAkhir); 
+            }else{
+                while ((wait(&status)) > 0);
+                char *hapus[]= {"rm","-r","Fylm","Musyik","Pyoto",NULL};
+                execv("/bin/rm", hapus); 
+                exit(1);
+            }
+```
+Sama seperti soal sebelumnya, dapat dilihat pada kondisi `else if(now >= 1617981718)` kami juga menggunakan *epoch time* untuk mengkonversi tanggalnya, adapun konversi dari tanggal tersebut adalah 9 April 2021 pukul 22:22 WIB. Maka kondisi tersebut menyatakan bahwa tepat pada ulangtahunnya maka akan dijalankan perinta untuk menzip semua folder dengan nama **Lopyu_Stevany.zip** dan semua folder akan di delete dan hanya menyisakan file yang berformat `.zip`.
+Pada child proses kami melakukan zip untuk membuat files **Lopyu_Stefany.zip*** dengan perintah `zip`. tag `-r` digunakan untuk melakukan zip pada sebuah directory/folder. Pada parent proses kami menggunakan perintah `rm` untuk menghapus folder-folder yang sudah dibuat sebelumnya.
+
+Untuk menjalankan program tersebut, maka dapat dilakukan sebagai berikut
+![soal1f](Screenshots/1d1.PNG)
+Untuk mensetting tanggalnya pada ubuntu, agar dapat berjalan sesuai waktu ulang tahun Stevany.
+
+Adapun hasilnya adalah sebagai berikut
+![soal1f](Screenshots/1d2.PNG)
+![soal1f](Screenshots/1d3.PNG)
+
+Dapat dilihat bahwa tepat pada ulangtahunnya 9 April 2021 pukul 22:22 WIB, maka akan terbentuk seperti gambar diatas. Semua folder akan dihapus dan hanya menyisakan **Lopyu_Stefany.zip*** , **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany**.
+
+## Kendala ##
+Terdapat kendala pada saat program tidak diberi kondisi ` while ((wait(&status)) > 0)` ketika dijalankan, seluruh folder  yang berbentuk zip tidak semuanya terdownload. Lalu pada saat membuat child process dan parent process agak lumayan membingungkan. Dan pada saat mensetting tanggal yang diminta, kami agak kebingungan karena ketika sudah mensetting tanggal yang diminta tidak bisa dan kembali ke tanggal di laptop.
 
 ## Soal 2.
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
