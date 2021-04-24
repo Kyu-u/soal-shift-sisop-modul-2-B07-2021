@@ -618,5 +618,7 @@ Untuk argumen yang selain dari kedua argumen diatas, kami menambahkan output bah
 
 ### Kendala ###
 
-Kendala yang dialami saat membuat nomor ini adalah pada concurrency processnya. Awalnya kami menginisialiasi ```int status``` sebagai status yang akan digunakan sebagai parameter dari fungsi ```wait()```, namun saat program dijalankan, outputnya tidak sesuai dan malah mengeluarkan direktori baru dengan selisih waktu 10 detik, dimana seharusnya selisih pembuatan direktori baru 40 detik. Oleh karena itu, kami menggunakan ```sleep(1)``` untuk melakukan sleep selama 1 detik dan untuk selanjutnya waktu saat mendownload direktori kami kurangi 1 detik juga agar sesuai dengan direktorinya. Di akhir kami juga gunakan ```sleep(39)``` karena direktori terbuat setiap 40 detik dan program telah sleep selama 1 detik sebelumnya.
+Kendala yang dialami saat membuat nomor ini adalah pada concurrency process nya. Awalnya kami menginisialiasi ```int status``` sebagai status yang akan digunakan sebagai parameter dari fungsi ```wait()``` setelah proses selesai dilakukan, namun saat program dijalankan, outputnya tidak sesuai dan setelah pembuatan direktori kedua berhasil, program malah mengeluarkan direktori baru dengan selisih waktu 10 detik, dimana seharusnya selisih pembuatan direktori baru 40 detik. 
+
+Oleh karena itu, kami menggunakan ```sleep(1)``` untuk melakukan sleep selama 1 detik dan untuk selanjutnya waktu saat mendownload direktori kami kurangi 1 detik juga agar sesuai dengan direktorinya. Di akhir kami juga gunakan ```sleep(39)``` karena direktori terbuat setiap 40 detik dan program telah sleep selama 1 detik sebelumnya.
 
