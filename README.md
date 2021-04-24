@@ -104,8 +104,8 @@ execv("/usr/bin/unzip", argvB);
 
 Sehingga ketika kodingan pada fungsi `folder2a()` ini dipanggil dibagian **main**, dapat menghasilkan seperti gambar berikut ini.
 
-![soal2a1](Screenshots/soal2a1.jpg)
-![soal2a2](Screenshots/soal2a2.jpg)
+![soal2a1](Screenshots/2a1.jpg)
+![soal2a2](Screenshots/2a2.jpg)
 
 ### 2B ###
 Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam zip. Karena kamu tidak mungkin memeriksa satu-persatu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip.
@@ -173,7 +173,7 @@ Pada akhir fungsi folder2b() ini, dimana ketika semua file yang ada telah diakse
 
 Ketika kodingan pada fungsi `folder2a()` dan `folder2b` ini dipanggil sekaligus dibagian **main**, dapat menghasilkan seperti gambar berikut ini.
 
-![soal2b](Screenshots/soal2b.jpg)
+![soal2b](Screenshots/2b.jpg)
 
 ### 2 C, D, E ###
 #### 2C ####
@@ -331,8 +331,8 @@ Setelah mendapatkan variabel **newname** tadi, maka bisa dilakukan pemindahan fi
 
 Hasil dari perpindahan bisa dilihat pada gambar berikut ini.
 
-![soal2cd](Screenshots/soal2cd1)
-![soal2cd](Screenshots/soal2cd2)
+![soal2cd](Screenshots/2cd1.jpg)
+![soal2cd](Screenshots/2cd2.jpg)
 
 ```c
 FILE *keterangan;
@@ -353,7 +353,7 @@ Kembali ke fungsi `move2c` dimana setelah semua file sudah sirename dan dipindah
 
 Jika semua fungsinya dijalankan maka akan dapat file keterangan.txt yang sudah berisi. Berikut ini contohnya.
 
-![soal2e](Screenshots/soal2e)
+![soal2e](Screenshots/2e.jpg)
 
 
 ## Soal 3
