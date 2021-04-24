@@ -57,7 +57,7 @@ Kami membuatnya dalam bebrapa **fork** yaitu pada `child_id1=fork();` merupakan 
 Perintah `while ((wait(&status))>0`, berarti menunggu proses childnya dulu selesai lalu dilanjutkan dengan proses parent yang dibawahnya. Lalu, pada parent terakhir, kami membuat proses download untuk file foto yang disimpan dengan nama **Foto_for_Stevany**. Dan pada setiap perintah dijalankan, perintah `execv` akan menjalankan perintah tersebut.
 
 ### 1C dan 1D ###
-Mengekstrak isi folder yang berisikan zip lalu memnindahkan ke dalam folder **Fylm,Musyik,Pyoto** yang sudah dibuat.
+Mengekstrak isi folder yang berisikan zip lalu memindahkan ke dalam folder **Fylm,Musyik,Pyoto** yang sudah dibuat.
 ```c
 else{
                     while ((wait(&status)) > 0);
@@ -76,7 +76,18 @@ else{
 Proses ini terjadi di dalam parent, karena menunggu semua file yang tadi selesai di download lalu proses ini akan terjadi.
 ```char* unzip[][10]= {{"unzip","-j","Film_for_Stevany.zip","-d","./Fylm",NULL},{"unzip","-j","Musik_for_Stevany.zip","-d","./Musyik",NULL},{"unzip","-j","Foto_for_Stevany.zip","*.jpg","-d","./Pyoto",NULL}};``` ini merupakan proses untuk mengekstrak zip nya lalu membuatnya ke dalam folder yang sudah ada.
 
-Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah `-j` agar tidak membuat folder baru, sedangkan `-d` berfungsi untuk memindahkan file yang berada di dalam **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** ke dalam folder **Fylm**,**Musyik**, dan **Pyoto**.
+Adapun perintah `unzip` yaitu untuk mengekstrak isi di dalam foldernya, perintah `-j` agar tidak membuat folder baru, sedangkan `-d` berfungsi untuk memindahkan file yang berada di dalam **Film_for_Stevany** , **Musik_for_Stevany**, dan **Foto_for_Stevany** ke dalam folder **Fylm**,**Musyik**, dan **Pyoto**. Dapat dilihat juga pada proses unzip foto, bahwa kami menggunakan ".jpg" hal ini digunakan agar program hanya mengekstrak file yang berekstensi jpg saja. Untuk menjalankan perintah tersebut, kami menggunakan perulangan for kembali sebanyak tiga kali.
+```c
+ int i = -1;
+                    while (i<3)
+                    {
+                        i++;
+                        child_id4 = fork();
+                        if (child_id4 == 0) continue; 
+                        execv("/bin/unzip",unzip[i]);
+                    }
+```
+
 
 ## Soal 2.
 Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.
@@ -618,7 +629,5 @@ Untuk argumen yang selain dari kedua argumen diatas, kami menambahkan output bah
 
 ### Kendala ###
 
-Kendala yang dialami saat membuat nomor ini adalah pada concurrency process nya. Awalnya kami menginisialiasi ```int status``` sebagai status yang akan digunakan sebagai parameter dari fungsi ```wait()``` setelah proses selesai dilakukan, namun saat program dijalankan, outputnya tidak sesuai dan setelah pembuatan direktori kedua berhasil, program malah mengeluarkan direktori baru dengan selisih waktu 10 detik, dimana seharusnya selisih pembuatan direktori baru 40 detik. 
-
-Oleh karena itu, kami menggunakan ```sleep(1)``` untuk melakukan sleep selama 1 detik dan untuk selanjutnya waktu saat mendownload direktori kami kurangi 1 detik juga agar sesuai dengan direktorinya. Di akhir kami juga gunakan ```sleep(39)``` karena direktori terbuat setiap 40 detik dan program telah sleep selama 1 detik sebelumnya.
+Kendala yang dialami saat membuat nomor ini adalah pada concurrency processnya. Awalnya kami menginisialiasi ```c int status``` sebagai status yang akan digunakan sebagai parameter dari fungsi ```c wait()```, namun saat program dijalankan, outputnya tidak sesuai dan malah mengeluarkan direktori baru dengan selisih waktu 10 detik, dimana seharusnya selisih pembuatan direktori baru 40 detik. Oleh karena itu, kami menggunakan ```c sleep(1)``` untuk melakukan sleep selama 1 detik dan untuk selanjutnya waktu saat mendownload direktori kami kurangi 1 detik juga agar sesuai dengan direktorinya. Di akhir kami juga gunakan ```c sleep(39)``` karena direktori terbuat setiap 40 detik dan program telah sleep selama 1 detik sebelumnya.
 
