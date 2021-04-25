@@ -498,6 +498,9 @@ Jika semua fungsinya dijalankan maka akan dapat file keterangan.txt yang sudah b
 
 ![soal2e](Screenshots/2e.jpg)
 
+### Kendala ###
+Terdapat beberapa kendala saat mengerjakan soal no 2 ini, yang pertama pada saat penggunaan parent process dan child process nya agak membingungkan, penempatan `while((wait(&status))>0);` yang sesuai agar bisa menjalankan perintah yang selanjutnya. Saat pengerjaan juga beberapa kali mendapati error berupa Segmentation Fault (Core Dump).
+
 
 ## Soal 3
 
